@@ -12,4 +12,10 @@ namespace ATM_Application
         {
         }
     }
+
+    public class ATM_Placeholder
+    {
+        //placeholder for NUnit tests
+
+    }
 }
