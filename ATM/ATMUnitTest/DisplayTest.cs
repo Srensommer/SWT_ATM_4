@@ -19,10 +19,10 @@ namespace ATMUnitTest
         {
             uut = new ATM_Placeholder();
         }
-        //[TestCase()]
+        [TestCase()]
         public void Test_Something()
         {
-            //Assert.That();
+            Assert.AreEqual(2,2);
         }
     }
 }
