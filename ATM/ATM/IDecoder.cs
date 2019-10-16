@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ATM
 {
-    public interface IDisplay
+    public interface IDecoder
     {
     }
 }
