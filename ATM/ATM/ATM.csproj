@@ -44,9 +44,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ATMController.cs" />
     <Compile Include="Display.cs" />
+    <Compile Include="TrackDataFilter.cs" />
     <Compile Include="IDisplay.cs" />
     <Compile Include="IDecoder.cs" />
+    <Compile Include="ITrackDataFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrackData.cs" />
     <Compile Include="Decoder.cs" />

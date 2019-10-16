@@ -9,17 +9,21 @@ namespace ATM
 {
     public class TrackData
     {
-        private readonly string _tag;
-        private int _x, _y, _altitude;
-        private DateTime _timestamp;
+        public string Tag { get; }
+        public int X { get; }
+        public int Y { get; }
+        public int Altitude { get; }
+        public DateTime Timestamp { get; }
+
+
 
         public TrackData(string tag, int x, int y, int altitude, DateTime timestamp)
         {
-            _tag = tag;
-            _x = x;
-            _y = y;
-            _altitude = altitude;
-            _timestamp = timestamp;
+            Tag = tag;
+            X = x;
+            Y = y;
+            Altitude = altitude;
+            Timestamp = timestamp;
         }
     }
 }

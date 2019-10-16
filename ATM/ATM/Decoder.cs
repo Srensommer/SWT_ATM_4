@@ -9,21 +9,23 @@ namespace ATM
 {
     public class Decoder : IDecoder
     {
-        public Decoder(ITransponderReceiver rec)
+        public Decoder()
         {
-            rec.TransponderDataReady += OnTransponderDataReady;
         }
 
-        private void OnTransponderDataReady(object sender, RawTransponderDataEventArgs e)
+        public List<TrackData> Decode(RawTransponderDataEventArgs e)
         {
-            System.Console.WriteLine("Received data!");
+            List<TrackData> data = new List<TrackData>();
+
             foreach (var track in e.TransponderData)
             {
-                System.Console.WriteLine(track);
+                data.Add(decodeTrack(track));
             }
+
+            return data;
         }
 
-        private TrackData decode(string trackString)
+        private TrackData decodeTrack(string trackString)
         {
             var parameters = trackString.Split(';');
 
