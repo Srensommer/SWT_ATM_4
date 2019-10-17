@@ -15,6 +15,7 @@ namespace ATM
 
         public List<TrackData> Filter(List<TrackData> data)
         {
+
             foreach (TrackData element in data)
             {
                 if (minX < element.X && maxX > element.X)
