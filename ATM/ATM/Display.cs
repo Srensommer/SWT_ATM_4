@@ -11,11 +11,15 @@ namespace TransponderReceiver
     {
         public void Render(List<TrackData> trackData)
         {
-            System.Console.Clear();
             foreach (TrackData track in trackData)
             {
-                System.Console.WriteLine($"{track.Tag} {track.X} {track.Y} {track.Altitude} {track.Timestamp}");
+                System.Console.WriteLine($"{track.Tag} {track.X} {track.Y} {track.Altitude} {track.Timestamp:dd/MM/yy} { track.Timestamp:hh:mm:ss:fff}");
             }
+        }
+
+        public void Clear()
+        {
+            System.Console.Clear();
         }
     }
 }

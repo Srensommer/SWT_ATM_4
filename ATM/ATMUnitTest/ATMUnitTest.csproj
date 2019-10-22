@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DecodeDataTest.cs" />
+    <Compile Include="DisplayTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrackDataFilterTest.cs" />
   </ItemGroup>

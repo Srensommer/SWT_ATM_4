@@ -10,5 +10,6 @@ namespace TransponderReceiver
     public interface IDisplay
     {
         void Render(List<TrackData> trackData);
+        void Clear();
     }
 }

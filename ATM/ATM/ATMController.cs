@@ -41,6 +41,7 @@ namespace ATM_Application
             trackData = _filter.Filter(trackData);
 
             //Display Data
+            _display.Clear();
             _display.Render(trackData);
         }
     }
