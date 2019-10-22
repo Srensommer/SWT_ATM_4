@@ -9,9 +9,9 @@ namespace ATM
 {
     public class TrackDataFilter : ITrackDataFilter
     {
-        private int minX = 10000, maxX = 90000;
-        private int minY = 10000, maxY = 90000;
-        private int minZ = 500, maxZ = 20000;
+        private int minX = 0, maxX = 900000;
+        private int minY = 0, maxY = 900000;
+        private int minZ = 0, maxZ = 200000;
 
         public List<TrackData> Filter(List<TrackData> data)
         {
