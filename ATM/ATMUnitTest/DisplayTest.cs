@@ -36,7 +36,7 @@ namespace ATMUnitTest
                 420, 111, 9000,
                 new DateTime(2020, 1, 2, 10,  20,  30, 400)));
 
-            string expected = "TEST420 420 111 9000 02/01/20 10:20:30:400\r\n";
+            string expected = "TEST420 420 111 9000 2/1/2020 10:20:30:400\r\n";
 
             // Act
             _uut.Render(testData);

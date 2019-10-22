@@ -13,7 +13,9 @@ namespace TransponderReceiver
         {
             foreach (TrackData track in trackData)
             {
-                System.Console.WriteLine($"{track.Tag} {track.X} {track.Y} {track.Altitude} {track.Timestamp:dd/MM/yy} { track.Timestamp:hh:mm:ss:fff}");
+                System.Console.WriteLine($"{track.Tag} {track.X} {track.Y} {track.Altitude} " +
+                                         $"{track.Timestamp.Day}/{track.Timestamp.Month}/{track.Timestamp.Year} " +
+                                         $"{ track.Timestamp:hh:mm:ss:fff}");
             }
         }
 
