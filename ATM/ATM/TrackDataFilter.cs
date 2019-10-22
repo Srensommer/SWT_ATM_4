@@ -15,8 +15,8 @@ namespace ATM
 
         public List<TrackData> Filter(List<TrackData> data)
         {
-
-            foreach (TrackData element in data)
+            List<TrackData> tempTracks = data;
+            foreach (TrackData element in tempTracks)
             {
                 if (minX < element.X && maxX > element.X)
                 {
@@ -30,10 +30,10 @@ namespace ATM
                 }
                 else
                 {
-                    data.Remove(element);
+                    tempTracks.Remove(element);
                 }
             }
-            return data;
+            return tempTracks;
         }
     }
 }
