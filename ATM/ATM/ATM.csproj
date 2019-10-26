@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ATMController.cs" />
     <Compile Include="Display.cs" />
+    <Compile Include="HorizontalSpeedCalculator.cs" />
     <Compile Include="TrackDataFilter.cs" />
     <Compile Include="IDisplay.cs" />
     <Compile Include="IDecoder.cs" />

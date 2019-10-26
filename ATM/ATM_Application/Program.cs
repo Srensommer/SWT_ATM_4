@@ -23,7 +23,7 @@ namespace ATM_Application
 
             //Display for rendering data
             IDisplay display = new Display();
-
+          
             //Inversion of control
             ATMController controller = new ATMController(decoder, filter, display, receiver);
 
