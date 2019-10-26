@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ATM
 {
-    public class HorizontalSpeedCalculator
+    public class VelocityCalculator
     {
         public double CalculateSpeed(TrackData prevData, TrackData currData)
         {

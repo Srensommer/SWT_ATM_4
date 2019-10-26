@@ -60,6 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirectionCalculatorTest.cs" />
+    <Compile Include="VelocityCalculatorTest.cs" />
     <Compile Include="DecodeDataTest.cs" />
     <Compile Include="DisplayTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
