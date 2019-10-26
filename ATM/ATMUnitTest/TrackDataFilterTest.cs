@@ -19,9 +19,8 @@ namespace ATMUnitTest
     {
         private TrackDataFilter uut;
         private string dummyTag = "ATR423";
-        private int dummyX1 = 200000000;
-        private int dummyX2 = 2000;
-        private int dummyY = 5000;
+        private int dummyX = 20000;
+        private int dummyY = 50000;
         private int dummyAltitude = 2000;
         private DateTime dummyTimestamp = new DateTime(1994, 6, 9, 4, 20, 9);
         [SetUp]
@@ -31,26 +30,54 @@ namespace ATMUnitTest
 
         }
         [Test]
-        public void FilterTrackRemoveTest()
+        public void FilterTrackRemoveTrackWrongTagTest()
         {
-            TrackData dummyTrackDataAway = new TrackData(dummyTag, dummyX1, dummyY, dummyAltitude, dummyTimestamp);
-            List<TrackData> ddAway = new List<TrackData>{ dummyTrackDataAway };
-            Assert.IsEmpty(uut.Filter(ddAway));
+            TrackData dummyTrackDataAway = new TrackData("X", dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            List<TrackData> dummyTrackList = new List<TrackData>{ dummyTrackDataAway };
+            Assert.IsEmpty(uut.Filter(dummyTrackList));
         }
-
+        [Test]
+        public void FilterTrackRemoveTrackWrongXTest()
+        {
+            TrackData dummyTrackDataAway = new TrackData(dummyTag, 0, dummyY, dummyAltitude, dummyTimestamp);
+            List<TrackData> dummyTrackList = new List<TrackData> { dummyTrackDataAway };
+            Assert.IsEmpty(uut.Filter(dummyTrackList));
+        }
+        [Test]
+        public void FilterTrackRemoveTrackWrongYTest()
+        {
+            TrackData dummyTrackDataAway = new TrackData(dummyTag, dummyX, 9483002, dummyAltitude, dummyTimestamp);
+            List<TrackData> dummyTrackList = new List<TrackData> { dummyTrackDataAway };
+            Assert.IsEmpty(uut.Filter(dummyTrackList));
+        }
+        [Test]
+        public void FilterTrackRemoveTrackWrongZTest()
+        {
+            TrackData dummyTrackDataAway = new TrackData(dummyTag, dummyX, dummyY, -39, dummyTimestamp);
+            List<TrackData> dummyTrackList = new List<TrackData> { dummyTrackDataAway };
+            Assert.IsEmpty(uut.Filter(dummyTrackList));
+        }
         [Test]
         public void FilterTrackStayTest()
         {
-            TrackData dummyTrackDataStay = new TrackData(dummyTag, dummyX2, dummyY, dummyAltitude, dummyTimestamp);
-            List<TrackData> ddStay = new List<TrackData>{ dummyTrackDataStay };
-            Assert.IsNotEmpty(uut.Filter(ddStay));
+            TrackData dummyTrackDataStay = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            List<TrackData> dummyTrackList = new List<TrackData>{ dummyTrackDataStay };
+            Assert.IsNotEmpty(uut.Filter(dummyTrackList));
         }
         [Test]
-        public void FilterTrackOneStayTest()
+        public void FilterTrackOneOfTwoStayTest()
         {
-            TrackData dummyTrackDataStay = new TrackData(dummyTag, dummyX2, dummyY, dummyAltitude, dummyTimestamp);
-            List<TrackData> ddStay = new List<TrackData> { dummyTrackDataStay };
-            Assert.AreEqual(uut.Filter(ddStay).Count,1);
+            TrackData dummyTrackDataStay = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            TrackData dummyTrackDataAway = new TrackData(dummyTag, 2039495, dummyY, dummyAltitude, dummyTimestamp);
+            List<TrackData> dummyTrackList = new List<TrackData> { dummyTrackDataStay, dummyTrackDataAway };
+            Assert.AreEqual(1, uut.Filter(dummyTrackList).Count);
+        }
+        [Test]
+        public void FilterTrackTwoOfTwoStayTest()
+        {
+            TrackData dummyTrackDataStay = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            List<TrackData> dummyTrackList = new List<TrackData> { dummyTrackDataStay, dummyTrackDataStay };
+            Assert.AreEqual(2, uut.Filter(dummyTrackList).Count);
         }
     }
 
