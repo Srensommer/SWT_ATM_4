@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ATM;
 using NUnit.Framework;
+using NSubstitute;
 using TransponderReceiver;
 
 namespace ATMUnitTest
@@ -24,6 +26,20 @@ namespace ATMUnitTest
 
             //Arrange - Console output captured in StringWriter
             Console.SetOut(_fakeConsole);
+        }
+
+        [Test]
+        public void Display_Clear()
+        {
+            // Arrange
+            _fakeConsole = Substitute.For<StringWriter>();
+            Console.SetOut(_fakeConsole);
+
+            // Act
+            //_uut.Clear();
+
+            // Assert
+            //_fakeConsole.Received().Clear();
         }
 
         [Test]
