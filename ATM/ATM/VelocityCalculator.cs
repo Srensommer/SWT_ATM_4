@@ -10,11 +10,15 @@ namespace ATM
     {
         public double CalculateSpeed(TrackData prevData, TrackData currData)
         {
-            int diffX = Math.Abs(prevData.X - currData.X);
-            int diffY = Math.Abs(prevData.Y - currData.Y);
-            var diffTime = Math.Abs((prevData.Timestamp - currData.Timestamp).TotalSeconds);
-            double velocity = Math.Sqrt(diffX^2 + diffY^2)/diffTime;
-            return velocity;
+            if (prevData.Tag == currData.Tag)
+            {
+                int diffX = Math.Abs(prevData.X - currData.X);
+                int diffY = Math.Abs(prevData.Y - currData.Y);
+                var diffTime = Math.Abs((prevData.Timestamp - currData.Timestamp).TotalSeconds);
+                double velocity = Math.Sqrt(Math.Pow(diffX, 2) + Math.Pow(diffY, 2)) / diffTime;
+                return velocity;
+            }
+            return 0;
         }
         //BigBooBoo test - sæt det her i main med et breakpoint, og se at IT NO WORK GOOD
         //var penis = new HorizontalSpeedCalculator();
