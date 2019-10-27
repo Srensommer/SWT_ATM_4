@@ -10,8 +10,17 @@ namespace ATM
     {
         public double CalculateDirection(TrackData prevData, TrackData currData)
         {
-                double direction = Math.Atan2(currData.X - prevData.X, currData.Y - prevData.Y);
-                return direction;
+            double directionInRadians = Math.Atan2(currData.X - prevData.X, currData.Y - prevData.Y);
+            return RadiansToDegrees(directionInRadians);
+        }
+        public static double RadiansToDegrees(double radians)
+        {
+            double degrees = 180 / Math.PI * radians;
+            if (degrees<0)
+            {
+                degrees = degrees+360;
+            }
+            return degrees;
         }
     }
 }

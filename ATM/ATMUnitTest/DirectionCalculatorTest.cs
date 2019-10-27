@@ -23,13 +23,40 @@ namespace ATMUnitTest
         {
          uut = new DirectionCalculator();   
         }
-
         [Test]
-        public void Returns180()
+        public void DirectionCalculatorNoMovementReturns0Test()
         {
+            TrackData prev = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData curr = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
-            TrackData prev = new TrackData(dummyTag, dummyX, 60000, dummyAltitude, dummyTimestamp);
-            Assert.AreEqual(Math.PI,uut.CalculateDirection(prev,curr));
+            Assert.AreEqual(0, uut.CalculateDirection(prev, curr));
+        }
+        [Test]
+        public void DirectionCalculatorPositiveMovementOnXReturns90Test()
+        {
+            TrackData prev = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            TrackData curr = new TrackData(dummyTag, 20001, dummyY, dummyAltitude, dummyTimestamp);
+            Assert.AreEqual(90, uut.CalculateDirection(prev, curr));
+        }
+        [Test]
+        public void DirectionCalculatorNegativeMovementOnYReturns180Test()
+        {
+            TrackData prev = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            TrackData curr = new TrackData(dummyTag, dummyX, 49999, dummyAltitude, dummyTimestamp);
+            Assert.AreEqual(180, uut.CalculateDirection(prev, curr));
+        }
+        [Test]
+        public void DirectionCalculatorNegativeMovementOnXReturns270Test()
+        {
+            TrackData prev = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            TrackData curr = new TrackData(dummyTag, 19999, dummyY, dummyAltitude, dummyTimestamp);
+            Assert.AreEqual(270, uut.CalculateDirection(prev, curr));
+        }
+        [Test]
+        public void DirectionCalculatorPositiveMovementOnYReturns0Test()
+        {
+            TrackData prev = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            TrackData curr = new TrackData(dummyTag, dummyX, 50001, dummyAltitude, dummyTimestamp);
+            Assert.AreEqual(0, uut.CalculateDirection(prev, curr));
         }
     }
 }
