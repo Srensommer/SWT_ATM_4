@@ -23,6 +23,7 @@ namespace ATMUnitTest
         private ITransponderReceiver _fakeReceiver;
 
         private List<TrackData> _fakeTrackData;
+        private Dictionary<string, FlightData> _fakeFlightData;
         private RawTransponderDataEventArgs _fakeEventArgs;
 
         [SetUp]
@@ -37,11 +38,14 @@ namespace ATMUnitTest
 
             _fakeEventArgs = new RawTransponderDataEventArgs(new List<string>());
             _fakeTrackData = new List<TrackData>();
+            _fakeFlightData = new Dictionary<string, FlightData>();
 
             //Fake decoder should return fake Trackdata when called with fakeEventArgs
             _fakeDecoder.Decode(_fakeEventArgs).Returns(_fakeTrackData);
 
             _fakeTrackDataFilter.Filter(_fakeTrackData).Returns(_fakeTrackData);
+
+            _fakeFlightCalculator.Calculate(Arg.Any<Dictionary<string, FlightData>>(), Arg.Any<List<TrackData>>()).Returns(_fakeFlightData);
 
             _uut = new ATMController(
                 _fakeDecoder, 
@@ -65,9 +69,12 @@ namespace ATMUnitTest
             //Filter called with correct track data
             _fakeTrackDataFilter.Received().Filter(_fakeTrackData);
 
+            //Tests that flight calculator is called
+            _fakeFlightCalculator.Received().Calculate(Arg.Any<Dictionary<string, FlightData>>(), _fakeTrackData);
+
             //Display called with correct track data
             _fakeDisplay.Received().Clear();
-            _fakeDisplay.Received().Render(_fakeTrackData);
+            _fakeDisplay.Received().Render(_fakeFlightData);
         }
     }
 }
