@@ -9,13 +9,15 @@ namespace ATM
 {
     public class Display : IDisplay
     {
-        public void Render(List<TrackData> trackData)
+        public void Render(Dictionary<string, FlightData> flightData)
         {
-            foreach (TrackData track in trackData)
+            foreach (FlightData flight in flightData.Values)
             {
-                System.Console.WriteLine($"{track.Tag} {track.X} {track.Y} {track.Altitude} " +
-                                         $"{track.Timestamp.Day}/{track.Timestamp.Month}/{track.Timestamp.Year} " +
-                                         $"{ track.Timestamp:hh:mm:ss:fff}");
+                System.Console.WriteLine($"{flight.Tag} {flight.X} {flight.Y} {flight.Altitude} " +
+                                         $"{flight.Timestamp.Day}/{flight.Timestamp.Month}/{flight.Timestamp.Year} " +
+                                         $"{ flight.Timestamp:hh:mm:ss}" +
+                                         $" Course { flight.CompassCourse}" +
+                                         $" Velocity { flight.Velocity }");
             }
         }
 

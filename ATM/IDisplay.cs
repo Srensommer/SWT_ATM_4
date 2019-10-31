@@ -9,7 +9,7 @@ namespace ATM
 {
     public interface IDisplay
     {
-        void Render(List<TrackData> trackData);
+        void Render(Dictionary<string, FlightData> flightData);
         void Clear();
     }
 }

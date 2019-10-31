@@ -12,11 +12,17 @@ namespace ATM
         public bool CollisionFlag {get; set; }
         public double Velocity { get; set; }
         public double CompassCourse { get; set; }
-        public String Tag { get; private set; }
+
+        public string Tag => CurrentTrackData.Tag;
+        public int X => CurrentTrackData.X;
+        public int Y => CurrentTrackData.Y;
+        public int Altitude => CurrentTrackData.Altitude;
+        public DateTime Timestamp => CurrentTrackData.Timestamp;
+
+
 
         public FlightData(TrackData trackData)
         {
-            Tag = trackData.Tag;
             CurrentTrackData = trackData;
             CollisionFlag = false;
         }

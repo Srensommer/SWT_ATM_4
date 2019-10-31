@@ -18,6 +18,7 @@ namespace ATMUnitTest
         private ATMController _uut;
         private IDisplay _fakeDisplay;
         private ITrackDataFilter _fakeTrackDataFilter;
+        private IFlightCalculator _fakeFlightCalculator;
         private IDecoder _fakeDecoder;
         private ITransponderReceiver _fakeReceiver;
 
@@ -31,17 +32,23 @@ namespace ATMUnitTest
             _fakeDisplay = Substitute.For<IDisplay>();
             _fakeTrackDataFilter = Substitute.For<ITrackDataFilter>();
             _fakeDecoder = Substitute.For<IDecoder>();
+            _fakeFlightCalculator = Substitute.For<IFlightCalculator>();
             _fakeReceiver = Substitute.For<ITransponderReceiver>();
 
             _fakeEventArgs = new RawTransponderDataEventArgs(new List<string>());
             _fakeTrackData = new List<TrackData>();
 
-            //Fake decoder should return fakeTrackdata when called with fakeEventArgs
+            //Fake decoder should return fake Trackdata when called with fakeEventArgs
             _fakeDecoder.Decode(_fakeEventArgs).Returns(_fakeTrackData);
 
             _fakeTrackDataFilter.Filter(_fakeTrackData).Returns(_fakeTrackData);
 
-            _uut = new ATMController(_fakeDecoder, _fakeTrackDataFilter, _fakeDisplay, _fakeReceiver);
+            _uut = new ATMController(
+                _fakeDecoder, 
+                _fakeTrackDataFilter, 
+                _fakeDisplay, 
+                _fakeReceiver,
+                _fakeFlightCalculator);
         }
 
         [Test]

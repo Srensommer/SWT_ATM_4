@@ -21,11 +21,20 @@ namespace ATM_Application
             //Filter for removing tracks outside of airspace
             ITrackDataFilter filter = new TrackDataFilter();
 
+            //Flight calculator for direction and velocity
+            IVelocityCalculator velocityCalculator = new VelocityCalculator();
+            IDirectionCalculator directionCalculator = new DirectionCalculator();
+            ICollisionDetector collisionDetector = new CollisionDetector();
+            IFlightCalculator flightCalculator = new FlightCalculator(
+                velocityCalculator, 
+                directionCalculator, 
+                collisionDetector);
+
             //Display for rendering data
             IDisplay display = new Display();
-          
+
             //Inversion of control
-            ATMController controller = new ATMController(decoder, filter, display, receiver);
+            ATMController controller = new ATMController(decoder, filter, display, receiver, flightCalculator);
 
             //Wait for user to close the console
             char input = System.Console.ReadKey().KeyChar;
