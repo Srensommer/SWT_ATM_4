@@ -27,25 +27,30 @@ namespace ATMUnitTest
 
         }
         [Test]
-        public void VelocityCalculatorReturns0()
+        public void VelocityCalculatorSameDataReturns0()
+        {
+            TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            var testList1 = new List<TrackData> { dummyTrackData1 };
+            var testList2 = new List<TrackData> { dummyTrackData1 };
+            Assert.AreEqual(0, uut.CalculateSpeed(testList1, testList2));
+        }
+        [Test]
+        public void VelocityCalculatorOnlyDifferenceInTimeReturns0()
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp2);
-            Assert.AreEqual(0, uut.CalculateSpeed(dummyTrackData1, dummyTrackData2));
+            var testList1 = new List<TrackData>{ dummyTrackData1};
+            var testList2 = new List<TrackData>{ dummyTrackData2};
+            Assert.AreEqual(0, uut.CalculateSpeed(testList1, testList2));
         }
         [Test]
-        public void VelocityCalculatorReturns10()
-        {
-            TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
-            TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX2, dummyY, dummyAltitude, dummyTimestamp2);
-            Assert.AreEqual(10, uut.CalculateSpeed(dummyTrackData1, dummyTrackData2));
-        }
-        [Test]
-        public void VelocityCalculatorReturns2()
+        public void VelocityCalculator10MeterIn5SecondsReturns2()
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX2, dummyY, dummyAltitude, dummyTimestamp3);
-            Assert.AreEqual(2, uut.CalculateSpeed(dummyTrackData1, dummyTrackData2));
+            var testList1 = new List<TrackData> { dummyTrackData1 };
+            var testList2 = new List<TrackData> { dummyTrackData2 };
+            Assert.AreEqual(2, uut.CalculateSpeed(testList1, testList2));
         }
 
         // TODO: VelocityCalculatorDivideByZeroException
