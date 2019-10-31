@@ -31,8 +31,6 @@ namespace ATMUnitTest
             _fakeReceiver = Substitute.For<ITransponderReceiver>();
 
             _uut = new ATMController(_fakeDecoder, _fakeTrackDataFilter, _fakeDisplay, _fakeReceiver);
-
-            
         }
 
         [Test]
@@ -40,6 +38,14 @@ namespace ATMUnitTest
         {
             //Act
             _fakeReceiver.TransponderDataReady += Raise.EventWith(new object(), new RawTransponderDataEventArgs(new List<string>()));
+
+            //Assert
+            _fakeDecoder.Received().Decode(Arg.Any<RawTransponderDataEventArgs>());
+
+            _fakeTrackDataFilter.Received().Filter(Arg.Any<List<TrackData>>());
+
+            _fakeDisplay.Received().Clear();
+            _fakeDisplay.Received().Render(Arg.Any<List<TrackData>>());
         }
     }
 }
