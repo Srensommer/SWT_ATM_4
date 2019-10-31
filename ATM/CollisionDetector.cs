@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,8 +44,9 @@ namespace ATM
 
         private void printToFile(TrackData track1, TrackData track2)
         {
-        //Log hvornår seperation condition skete. Dette skal indeholde tid for sep con. og tag for de pågældende fly
-        //Måske den her i virkeligheden skal have sin egen klasse..
+            string path = @".\log.txt";
+            string appendText = "Time of occurrence: " + new DateTime() + ", Tags: " + track1.Tag + ", " + track2.Tag + Environment.NewLine;
+            File.AppendAllText(path, appendText);
         }
 
     }

@@ -47,7 +47,6 @@ namespace ATM
                     newFlightData.Add(entry.Key, entry.Value);
                 }
             }
-
             return newFlightData;
         }
 

@@ -14,7 +14,7 @@ namespace ATM
                 return RadiansToDegrees(directionInRadians);
         }
 
-        public double RadiansToDegrees(double radians)
+        private double RadiansToDegrees(double radians)
         {
             double degrees = 180 / Math.PI * radians;
             if (degrees<0)
