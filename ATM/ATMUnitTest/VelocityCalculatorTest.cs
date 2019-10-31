@@ -19,31 +19,34 @@ namespace ATMUnitTest
         private DateTime dummyTimestamp = new DateTime(1969, 6, 9, 4, 20, 8);
         private DateTime dummyTimestamp2 = new DateTime(1969, 6, 9, 4, 20, 9);
         private DateTime dummyTimestamp3 = new DateTime(1969, 6, 9, 4, 20, 13);
+
+        private IVelocityCalculator uut;
+
         [SetUp]
         public void Setup()
         {
-
+            uut = new VelocityCalculator();
         }
         [Test]
         public void VelocityCalculatorSameDataReturns0()
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp2);
-            Assert.AreEqual(0, VelocityCalculator.CalculateSpeed(dummyTrackData1, dummyTrackData2));
+            Assert.AreEqual(0, uut.CalculateSpeed(dummyTrackData1, dummyTrackData2));
         }
         [Test]
         public void VelocityCalculatorOnlyDifferenceInTimeReturns0()
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX2, dummyY, dummyAltitude, dummyTimestamp2);
-            Assert.AreEqual(10, VelocityCalculator.CalculateSpeed(dummyTrackData1, dummyTrackData2));
+            Assert.AreEqual(10, uut.CalculateSpeed(dummyTrackData1, dummyTrackData2));
         }
         [Test]
         public void VelocityCalculator10MeterIn5SecondsReturns2()
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX2, dummyY, dummyAltitude, dummyTimestamp3);
-            Assert.AreEqual(2, VelocityCalculator.CalculateSpeed(dummyTrackData1, dummyTrackData2));
+            Assert.AreEqual(2, uut.CalculateSpeed(dummyTrackData1, dummyTrackData2));
         }
 
         // TODO: VelocityCalculatorDivideByZeroException
