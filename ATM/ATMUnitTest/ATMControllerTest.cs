@@ -39,7 +39,7 @@ namespace ATMUnitTest
         public void Test()
         {
             //Act
-            _fakeReceiver.TransponderDataReady += Raise.EventWith<RawTransponderDataEventArgs>();
+            _fakeReceiver.TransponderDataReady += Raise.EventWith(new object(), new RawTransponderDataEventArgs(new List<string>()));
         }
     }
 }
