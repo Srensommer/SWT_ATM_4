@@ -28,19 +28,6 @@ namespace ATMUnitTest
             Console.SetOut(_fakeConsole);
         }
 
-        [Test]
-        public void Display_Clear()
-        {
-            // Arrange
-            _fakeConsole = Substitute.For<StringWriter>();
-            Console.SetOut(_fakeConsole);
-
-            // Act
-            //_uut.Clear();
-
-            // Assert
-            //_fakeConsole.Received().Clear();
-        }
 
         [Test]
         public void TestDisplay()
