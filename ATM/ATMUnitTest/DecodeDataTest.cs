@@ -48,6 +48,9 @@ namespace ATMUnitTest
             {
                 case "normal":
                     testDataString.Add("PEPE69;420;69;1337;20151006213456789");
+                    testDataString.Add("FUN;111;22;4141;11111111111111111");
+
+
                     return new RawTransponderDataEventArgs(testDataString);
 
                 default:
@@ -61,6 +64,7 @@ namespace ATMUnitTest
             {
                 case "normal":
                     testData.Add(new TrackData("PEPE69", 420, 69, 1337, new DateTime(2015, 10, 06, 21, 34, 56, 789)));
+                    testData.Add(new TrackData("FUN", 111, 22, 4141, new DateTime(1111, 11, 11, 11, 11, 11, 111)));
                     return testData;
 
                 default:
