@@ -71,7 +71,6 @@ namespace ATMUnitTest
         {
             TrackData prev = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData curr = new TrackData(dummyTag, 20001, 50002, dummyAltitude, dummyTimestamp);
-           // Assert.AreEqual(26.565, DirectionCalculator.CalculateDirection(prev, curr));
         }
     }
 }

@@ -19,8 +19,6 @@ namespace ATMUnitTest
         public void Setup()
         {
             _uut = new ATM.Decoder();
-            //lav dummy decoder og dummy data
-            //Tests does nothing so far.
         }
         [TestCase("normal")]
         public void Decode_CalledWithRawTransponderDataEventArgs_ReturnsTrackDataList(string seed)
