@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="CollisionDetectorTest.cs" />
     <Compile Include="DirectionCalculatorTest.cs" />
+    <Compile Include="FlightCalculatorTest.cs" />
     <Compile Include="VelocityCalculatorTest.cs" />
     <Compile Include="DecodeDataTest.cs" />
     <Compile Include="DisplayTest.cs" />
