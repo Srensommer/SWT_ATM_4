@@ -33,13 +33,21 @@ namespace ATMUnitTest
         public void TestDisplay()
         {
             // Arrange
-            List<TrackData> testData = new List<TrackData>();
-            testData.Add(new TrackData(
-                "TEST420", 
-                420, 111, 9000,
-                new DateTime(2020, 1, 2, 10,  20,  30, 400)));
+            Dictionary<string, FlightData> testData = new Dictionary<string, FlightData>();
 
-            string expected = "TEST420 420 111 9000 2/1/2020 10:20:30:400\r\n";
+            TrackData trackData = new TrackData(
+                "TEST420",
+                420, 111, 9000,
+                new DateTime(2020, 1, 2, 10, 20, 30, 400));
+            
+            FlightData flightData = new FlightData(trackData);
+            flightData.Velocity = 999;
+            flightData.CompassCourse = 10;
+            
+            testData.Add(flightData.Tag, flightData);
+
+
+            string expected = "TEST420 420 111 9000 2/1/2020 10:20:30 Course 10 Velocity 999\r\n";
 
             // Act
             _uut.Render(testData);
