@@ -31,10 +31,9 @@ namespace ATMUnitTest
 
             _fakeVelocityCalculator.CalculateSpeed(Arg.Any<TrackData>(), Arg.Any<TrackData>()).Returns(1000);
             _fakeDirectionCalculator.CalculateDirection(Arg.Any<TrackData>(), Arg.Any<TrackData>()).Returns(45);
-            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(new List<String>());
 
 
-            uut = new FlightCalculator(_fakeVelocityCalculator, _fakeDirectionCalculator, _fakeCollisionDetector);
+            uut = new FlightCalculator(_fakeVelocityCalculator, _fakeDirectionCalculator);
         }
 
 

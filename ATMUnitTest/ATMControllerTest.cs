@@ -17,6 +17,7 @@ namespace ATMUnitTest
     {
         private ATMController _uut;
         private IDisplay _fakeDisplay;
+        private ICollisionDetector _fakeCollisionDetector;
         private ITrackDataFilter _fakeTrackDataFilter;
         private IFlightCalculator _fakeFlightCalculator;
         private IDecoder _fakeDecoder;
@@ -32,6 +33,7 @@ namespace ATMUnitTest
             //Arrange
             _fakeDisplay = Substitute.For<IDisplay>();
             _fakeTrackDataFilter = Substitute.For<ITrackDataFilter>();
+            _fakeCollisionDetector = Substitute.For<ICollisionDetector>();
             _fakeDecoder = Substitute.For<IDecoder>();
             _fakeFlightCalculator = Substitute.For<IFlightCalculator>();
             _fakeReceiver = Substitute.For<ITransponderReceiver>();
@@ -50,6 +52,7 @@ namespace ATMUnitTest
             _uut = new ATMController(
                 _fakeDecoder, 
                 _fakeTrackDataFilter, 
+                _fakeCollisionDetector,
                 _fakeDisplay, 
                 _fakeReceiver,
                 _fakeFlightCalculator);

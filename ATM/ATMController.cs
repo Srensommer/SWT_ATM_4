@@ -14,15 +14,17 @@ namespace ATM
         private IDecoder _decoder;
         private ITrackDataFilter _filter;
         private IFlightCalculator _flightCalculator;
+        private ICollisionDetector _collisionDetector;
         private IDisplay _display;
         private ITransponderReceiver _receiver;
 
         private Dictionary<string, FlightData> _data;
 
-        public ATMController(IDecoder decoder, ITrackDataFilter filter, IDisplay display, ITransponderReceiver receiver, IFlightCalculator flightCalculator)
+        public ATMController(IDecoder decoder, ITrackDataFilter filter, ICollisionDetector collisionDetector, IDisplay display, ITransponderReceiver receiver, IFlightCalculator flightCalculator)
         {
             _decoder = decoder;
             _filter = filter;
+            _collisionDetector = collisionDetector;
             _display = display;
             _receiver = receiver;
             _flightCalculator = flightCalculator;

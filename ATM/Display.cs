@@ -13,6 +13,13 @@ namespace ATM
         {
             foreach (FlightData flight in flightData.Values)
             {
+                if (flight.CollisionFlag)
+                {
+                    System.Console.WriteLine($"Oh no, collision on flight { flight.Tag }");
+                }
+            }
+            foreach (FlightData flight in flightData.Values)
+            {
                 System.Console.WriteLine($"{flight.Tag} {flight.X} {flight.Y} {flight.Altitude} " +
                                          $"{flight.Timestamp.Day}/{flight.Timestamp.Month}/{flight.Timestamp.Year} " +
                                          $"{ flight.Timestamp:hh:mm:ss}" +

@@ -24,17 +24,18 @@ namespace ATM_Application
             //Flight calculator for direction and velocity
             IVelocityCalculator velocityCalculator = new VelocityCalculator();
             IDirectionCalculator directionCalculator = new DirectionCalculator();
-            ICollisionDetector collisionDetector = new CollisionDetector();
             IFlightCalculator flightCalculator = new FlightCalculator(
-                velocityCalculator, 
-                directionCalculator, 
-                collisionDetector);
+                velocityCalculator,
+                directionCalculator);
+
+                //Create collision detector
+            ICollisionDetector collisionDetector = new CollisionDetector();
 
             //Display for rendering data
             IDisplay display = new Display();
 
             //Inversion of control
-            ATMController controller = new ATMController(decoder, filter, display, receiver, flightCalculator);
+            ATMController controller = new ATMController(decoder, filter, collisionDetector, display, receiver, flightCalculator);
 
             //Wait for user to close the console
             char input = System.Console.ReadKey().KeyChar;
