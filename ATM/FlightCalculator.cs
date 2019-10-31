@@ -9,14 +9,14 @@ namespace ATM
 {
     public class FlightCalculator : IFlightCalculator
     {
-        private readonly CollisionDetector _collisionDetector;
+        private readonly ICollisionDetector _collisionDetector;
         private readonly IVelocityCalculator _velocityCalculator;
         private readonly IDirectionCalculator _directionCalculator;
-        public FlightCalculator()
+        public FlightCalculator(IVelocityCalculator velocityCalculator, IDirectionCalculator directionCalculator, ICollisionDetector collisionDetector)
         {
-            _collisionDetector = new CollisionDetector();
-            _velocityCalculator = new VelocityCalculator();
-            _directionCalculator = new DirectionCalculator();
+            _collisionDetector = collisionDetector;
+            _velocityCalculator = velocityCalculator;
+            _directionCalculator = directionCalculator;
         }
 
         public Dictionary<string, FlightData> Calculate(Dictionary<String, FlightData> flightData, List<TrackData> trackData)
