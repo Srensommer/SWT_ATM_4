@@ -29,13 +29,16 @@ namespace ATMUnitTest
             List<TrackData> expectedTrackData = createTestDataList(seed);
             RawTransponderDataEventArgs testData = CreateTestDataRaw(seed);
 
-            List<TrackData> lol = _uut.Decode(testData);
+            List<TrackData> actualTrackData = _uut.Decode(testData);
 
-            Assert.AreEqual(expectedTrackData[0].Tag, _uut.Decode(testData)[0].Tag);
-            Assert.AreEqual(expectedTrackData[0].Timestamp, _uut.Decode(testData)[0].Timestamp);
-            Assert.AreEqual(expectedTrackData[0].Altitude, _uut.Decode(testData)[0].Altitude);
-            Assert.AreEqual(expectedTrackData[0].X, _uut.Decode(testData)[0].X);
-            Assert.AreEqual(expectedTrackData[0].Y, _uut.Decode(testData)[0].Y);
+            for (int i = 0; i < actualTrackData.Count(); i++)
+            {
+                Assert.AreEqual(expectedTrackData[i].Tag, actualTrackData[i].Tag);
+                Assert.AreEqual(expectedTrackData[i].X, actualTrackData[i].X);
+                Assert.AreEqual(expectedTrackData[i].Y, actualTrackData[i].Y);
+                Assert.AreEqual(expectedTrackData[i].Altitude, actualTrackData[i].Altitude);
+                Assert.AreEqual(expectedTrackData[i].Timestamp, actualTrackData[i].Timestamp);
+            }
         }
 
         private RawTransponderDataEventArgs CreateTestDataRaw(string seed)
