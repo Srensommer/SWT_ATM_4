@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ATM
 {
-    public class VelocityCalculator
+    public static class VelocityCalculator
     {
-        public double CalculateSpeed(TrackData prevData, TrackData currData)
+        public static double CalculateSpeed(TrackData prevData, TrackData currData)
         {
             if (currData.Tag == prevData.Tag)
             {

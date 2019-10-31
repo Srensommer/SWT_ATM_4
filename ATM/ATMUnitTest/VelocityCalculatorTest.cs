@@ -11,7 +11,6 @@ namespace ATMUnitTest
     [TestFixture]
     public class VelocityCalculatorTest
     {
-        private VelocityCalculator uut;
         private string dummyTag = "ATR423";
         private int dummyX = 20000;
         private int dummyX2 = 20010;
@@ -23,7 +22,6 @@ namespace ATMUnitTest
         [SetUp]
         public void Setup()
         {
-            uut = new VelocityCalculator();
 
         }
         [Test]
@@ -31,21 +29,21 @@ namespace ATMUnitTest
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp2);
-            Assert.AreEqual(0, uut.CalculateSpeed(dummyTrackData1, dummyTrackData2));
+            Assert.AreEqual(0, VelocityCalculator.CalculateSpeed(dummyTrackData1, dummyTrackData2));
         }
         [Test]
         public void VelocityCalculatorOnlyDifferenceInTimeReturns0()
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX2, dummyY, dummyAltitude, dummyTimestamp2);
-            Assert.AreEqual(10, uut.CalculateSpeed(dummyTrackData1, dummyTrackData2));
+            Assert.AreEqual(10, VelocityCalculator.CalculateSpeed(dummyTrackData1, dummyTrackData2));
         }
         [Test]
         public void VelocityCalculator10MeterIn5SecondsReturns2()
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX2, dummyY, dummyAltitude, dummyTimestamp3);
-            Assert.AreEqual(2, uut.CalculateSpeed(dummyTrackData1, dummyTrackData2));
+            Assert.AreEqual(2, VelocityCalculator.CalculateSpeed(dummyTrackData1, dummyTrackData2));
         }
 
         // TODO: VelocityCalculatorDivideByZeroException

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ATM
 {
-    public class DirectionCalculator
+    public static class DirectionCalculator
     {
-        public double CalculateDirection(TrackData prevData, TrackData currData)
+        public static double CalculateDirection(TrackData prevData, TrackData currData)
         {
             if (currData.Tag == prevData.Tag)
             {
@@ -17,14 +17,14 @@ namespace ATM
             }
             return 0;
         }
-        public double RadiansToDegrees(double radians)
+
+        public static double RadiansToDegrees(double radians)
         {
             double degrees = 180 / Math.PI * radians;
-            if (degrees < 0)
+            if (degrees<0)
             {
-                degrees = degrees + 360;
+                degrees = degrees+360;
             }
-
             return degrees;
         }
     }
