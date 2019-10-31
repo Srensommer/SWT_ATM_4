@@ -12,11 +12,11 @@ namespace ATMUnitTest
     [TestFixture]
     public class DirectionCalculatorTest
     {
-        private string dummyTag = "ATR423";
-        private int dummyX = 20000;
-        private int dummyY = 50000;
-        private int dummyAltitude = 2000;
-        private DateTime dummyTimestamp = new DateTime(1994, 6, 9, 4, 20, 9);
+        private readonly string dummyTag = "ATR423";
+        private readonly int dummyX = 20000;
+        private readonly int dummyY = 50000;
+        private readonly int dummyAltitude = 2000;
+        private readonly DateTime dummyTimestamp = new DateTime(1994, 6, 9, 4, 20, 9);
 
         private IDirectionCalculator uut;
         [SetUp]
@@ -67,11 +67,11 @@ namespace ATMUnitTest
             Assert.AreEqual(45, uut.CalculateDirection(prev, curr));
         }
         [Test]
-        public void DirectionCalculator1PositiveMovementStepOnX2stepsOnYReturns45Test()
+        public void DirectionCalculator1PositiveMovementStepOnX2StepsOnYReturns27Test()
         {
             TrackData prev = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData curr = new TrackData(dummyTag, 20001, 50002, dummyAltitude, dummyTimestamp);
-           // Assert.AreEqual(26.565, DirectionCalculator.CalculateDirection(prev, curr));
+            Assert.AreEqual(27, uut.CalculateDirection(prev, curr));
         }
     }
 }
