@@ -26,6 +26,7 @@ namespace ATM
                     flight.Velocity = VelocityCalculator.CalculateSpeed(flight.CurrentTrackData, track);
                     flight.CompassCourse = DirectionCalculator.CalculateDirection(flight.CurrentTrackData, track);
                     flight.CollisionFlag = collisionList.Contains(flight.Tag);
+                    flight.CurrentTrackData = track;
                 }
                 else
                 {
@@ -33,14 +34,17 @@ namespace ATM
                 }
 
             }
+
+            Dictionary<string, FlightData> newFlightData = new Dictionary<string, FlightData>();
             foreach (KeyValuePair<string, FlightData> entry in flightData)
             {
-                if (!trackData.Contains(entry.Value.CurrentTrackData))
+                if (trackData.Contains(entry.Value.CurrentTrackData))
                 {
-                    flightData.Remove(entry.Key);
+                    newFlightData.Add(entry.Key, entry.Value);
                 }
             }
-            return flightData;
+
+            return newFlightData;
         }
 
     }

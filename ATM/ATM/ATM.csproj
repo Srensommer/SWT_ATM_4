@@ -56,7 +56,9 @@
     <Compile Include="DirectionCalculator.cs" />
     <Compile Include="FlightCalculator.cs" />
     <Compile Include="FlightData.cs" />
+    <Compile Include="IDirectionCalculator.cs" />
     <Compile Include="IFlightCalculator.cs" />
+    <Compile Include="IVelocityCalculator.cs" />
     <Compile Include="VelocityCalculator.cs" />
     <Compile Include="TrackDataFilter.cs" />
     <Compile Include="IDisplay.cs" />

@@ -8,7 +8,7 @@ namespace ATM
 {
     public class FlightData
     {
-        public TrackData CurrentTrackData { get; }
+        public TrackData CurrentTrackData { get; set; }
         public bool CollisionFlag {get; set; }
         public double Velocity { get; set; }
         public double CompassCourse { get; set; }
