@@ -51,5 +51,42 @@ namespace ATMUnitTest
             List<String> uutList = uut.SeperationCheck(trackList);
             Assert.AreEqual(tagList, uutList);
         }
+
+        [Test]
+        public void CollisionDetectorNoLongerCollision()
+        {
+            TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
+            TrackData dummyTrackData2 = new TrackData("X2", 11000, 11000, 5200, new DateTime());
+            List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+            uut.SeperationCheck(trackList);
+
+            dummyTrackData1 = new TrackData("X1", 20000, 10000, 5000, new DateTime());
+            dummyTrackData2 = new TrackData("X2", 12000, 11000, 5200, new DateTime());
+            trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+            List<String> uutList = uut.SeperationCheck(trackList);
+            Assert.IsEmpty(uutList);
+        }
+
+
+        [Test]
+        public void CollisionDetectorCollisionAgain()
+        {
+            TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
+            TrackData dummyTrackData2 = new TrackData("X2", 11000, 11000, 5200, new DateTime());
+            List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+            uut.SeperationCheck(trackList);
+
+            dummyTrackData1 = new TrackData("X1", 20000, 10000, 5000, new DateTime());
+            dummyTrackData2 = new TrackData("X2", 12000, 11000, 5200, new DateTime());
+            trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+            uut.SeperationCheck(trackList);
+
+            dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
+            dummyTrackData2 = new TrackData("X2", 11000, 11000, 5200, new DateTime());
+            trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+            List<String> uutList = uut.SeperationCheck(trackList);
+            List<String> tagList = new List<String> { dummyTrackData1.Tag, dummyTrackData2.Tag };
+            Assert.AreEqual(tagList, uutList);
+        }
     }
 }
