@@ -9,30 +9,20 @@ namespace ATM
 {
     public class VelocityCalculator
     {
-        public List<TrackData> CalculateSpeed(List<TrackData> prevData, List<TrackData> currData)
+        public double CalculateSpeed(TrackData prevData, TrackData currData)
         {
-            foreach (var currDataTrack in currData)
+            if (currData.Tag == prevData.Tag)
             {
-                foreach (var prevDataTrack in prevData)
+               int diffX = Math.Abs(prevData.X - currData.X);
+               int diffY = Math.Abs(prevData.Y - currData.Y);
+               var diffTime = Math.Abs((prevData.Timestamp - currData.Timestamp).TotalSeconds);
+               if (diffTime != 0)
                 {
-                    if (currDataTrack.Tag == prevDataTrack.Tag)
-                    {
-                        var TrackWVelocity = new List<TrackData> { };
-                        int diffX = Math.Abs(prevDataTrack.X - currDataTrack.X);
-                        int diffY = Math.Abs(prevDataTrack.Y - currDataTrack.Y);
-                        var diffTime = Math.Abs((prevDataTrack.Timestamp - currDataTrack.Timestamp).TotalSeconds);
-                        if (diffTime != 0)
-                        {
-                            double velocity = Math.Sqrt(Math.Pow(diffX, 2) + Math.Pow(diffY, 2)) / diffTime;
-                            currDataTrack.Velocity = velocity;
-                            //TrackWVelocity.Add();
-                        }
-                        //return 0;
-                    }
+                    double velocity = Math.Sqrt(Math.Pow(diffX, 2) + Math.Pow(diffY, 2)) / diffTime;
+                    return velocity;
                 }
             }
-
-            return prevData;
+            return 0;
             //return 0;
         }
         //BigBooBoo test - sæt det her i main med et breakpoint, og se at IT NO WORK GOOD
