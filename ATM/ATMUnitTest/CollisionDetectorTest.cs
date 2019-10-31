@@ -21,11 +21,22 @@ namespace ATMUnitTest
             uut = new CollisionDetector();
         }
         [Test]
-        public void CollisionDetectorNoCollision()
+        public void CollisionDetectorNoCollisionVerticalDistance()
         {
             TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
             TrackData dummyTrackData2 = new TrackData("X2", 10000, 10000, 5300, new DateTime());
             List<TrackData> trackList = new List<TrackData>{dummyTrackData1, dummyTrackData2};
+            List<String> testList = new List<string>();
+            testList = uut.SeperationCheck(trackList);
+            Assert.IsEmpty(testList);
+        }
+
+        [Test]
+        public void CollisionDetectorNoCollisionHorizontalPlane()
+        {
+            TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
+            TrackData dummyTrackData2 = new TrackData("X2", 15000, 10000, 5400, new DateTime());
+            List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
             List<String> testList = new List<string>();
             testList = uut.SeperationCheck(trackList);
             Assert.IsEmpty(testList);
