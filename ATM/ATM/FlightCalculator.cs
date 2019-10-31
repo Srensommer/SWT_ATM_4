@@ -10,9 +10,13 @@ namespace ATM
     public class FlightCalculator : IFlightCalculator
     {
         private readonly CollisionDetector _collisionDetector;
+        private readonly IVelocityCalculator _velocityCalculator;
+        private readonly IDirectionCalculator _directionCalculator;
         public FlightCalculator()
         {
             _collisionDetector = new CollisionDetector();
+            _velocityCalculator = new VelocityCalculator();
+            _directionCalculator = new DirectionCalculator();
         }
 
         public Dictionary<string, FlightData> Calculate(Dictionary<String, FlightData> flightData, List<TrackData> trackData)
@@ -23,8 +27,8 @@ namespace ATM
             {
                 if (flightData.TryGetValue(track.Tag, out FlightData flight))
                 {
-                    flight.Velocity = VelocityCalculator.CalculateSpeed(flight.CurrentTrackData, track);
-                    flight.CompassCourse = DirectionCalculator.CalculateDirection(flight.CurrentTrackData, track);
+                    flight.Velocity = _velocityCalculator.CalculateSpeed(flight.CurrentTrackData, track);
+                    flight.CompassCourse = _directionCalculator.CalculateDirection(flight.CurrentTrackData, track);
                     flight.CollisionFlag = collisionList.Contains(flight.Tag);
                     flight.CurrentTrackData = track;
                 }
