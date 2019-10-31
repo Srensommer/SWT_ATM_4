@@ -11,15 +11,6 @@ namespace ATM
     public class CollisionDetector : ICollisionDetector
     {
         private List<String> _collisonTagList = new List<string>();
-        private string path = "..\\..\\..\\Log.txt";
-
-
-        public CollisionDetector()
-        {
-            string createText = "LogFile" + Environment.NewLine + Environment.NewLine;
-            File.WriteAllText(path, createText);
-        }
-
 
         public List<String> SeperationCheck(List<TrackData> trackList)
         {
@@ -29,16 +20,17 @@ namespace ATM
             {
                 foreach (TrackData track2 in trackList)
                 {
-                    if (!(Math.Sqrt(Math.Abs(track1.Y - track2.Y) + Math.Abs(track1.X - track2.X)) < 5000)) continue;
-                    if (!(Math.Abs(track1.Altitude - track2.Altitude) < 300)) continue;
+                    if (Math.Sqrt(Math.Abs(Math.Pow(track1.Y - track2.Y, 2)) + Math.Abs(Math.Pow(track1.X - track2.X, 2))) >= 5000) continue;
+                    if (Math.Abs(track1.Altitude - track2.Altitude) >= 300) continue;
                     if (track1 == track2) continue;
-                    if ((_collisonTagList.Contains(track1.Tag) && _collisonTagList.Contains(track2.Tag) ||
-                         (collisionList.Contains(track1.Tag) && collisionList.Contains(track2.Tag))))
-                        continue;
-                                
+                    if (collisionList.Contains(track1.Tag) && collisionList.Contains(track2.Tag)) continue;
+                    if (!(_collisonTagList.Contains(track1.Tag) && _collisonTagList.Contains(track2.Tag)))
+                    {
+                        GenerateConditionString(track1, track2);
+                    }
+                    
                     collisionList.Add(track1.Tag);
                     collisionList.Add(track2.Tag);
-                    GenerateConditionString(track1, track2);
                 }
             }
 
@@ -50,7 +42,6 @@ namespace ATM
         private String GenerateConditionString(TrackData track1, TrackData track2)
         {
             string appendText = "Time of occurrence: " + track1.Timestamp + ", Tags: " + track1.Tag + ", " + track2.Tag + Environment.NewLine;
-            File.AppendAllText(path, appendText);
             return appendText;
         }
 

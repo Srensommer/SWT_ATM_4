@@ -23,7 +23,7 @@ namespace ATMUnitTest
         public void CollisionDetectorNoCollisionVerticalDistance()
         {
             TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
-            TrackData dummyTrackData2 = new TrackData("X2", 10000, 10000, 5300, new DateTime());
+            TrackData dummyTrackData2 = new TrackData("X2", 10000, 10000, 5400, new DateTime());
             List<TrackData> trackList = new List<TrackData>{dummyTrackData1, dummyTrackData2};
             List<String> testList = new List<string>();
             testList = uut.SeperationCheck(trackList);
@@ -34,7 +34,7 @@ namespace ATMUnitTest
         public void CollisionDetectorNoCollisionHorizontalPlane()
         {
             TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
-            TrackData dummyTrackData2 = new TrackData("X2", 15000, 10000, 5400, new DateTime());
+            TrackData dummyTrackData2 = new TrackData("X2", 15000, 10000, 5200, new DateTime());
             List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
             List<String> testList = new List<string>();
             testList = uut.SeperationCheck(trackList);
@@ -53,15 +53,30 @@ namespace ATMUnitTest
         }
 
         [Test]
-        public void CollisionDetectorNoLongerCollision()
+        public void CollisionDetectorStillCollision()
         {
             TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
             TrackData dummyTrackData2 = new TrackData("X2", 11000, 11000, 5200, new DateTime());
             List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+            List<String> tagList = new List<String> { dummyTrackData1.Tag, dummyTrackData2.Tag };
+            uut.SeperationCheck(trackList);
+            dummyTrackData1 = new TrackData("X1", 11000, 11000, 5000, new DateTime());
+            dummyTrackData2 = new TrackData("X2", 12000, 12000, 5200, new DateTime());
+            List<String> uutList = uut.SeperationCheck(trackList);
+
+            Assert.AreEqual(tagList, uutList);
+        }
+
+        [Test]
+        public void CollisionDetectorNoLongerCollision()
+        {
+            TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
+            TrackData dummyTrackData2 = new TrackData("X2", 10000, 10000, 5200, new DateTime());
+            List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
             uut.SeperationCheck(trackList);
 
             dummyTrackData1 = new TrackData("X1", 20000, 10000, 5000, new DateTime());
-            dummyTrackData2 = new TrackData("X2", 12000, 11000, 5200, new DateTime());
+            dummyTrackData2 = new TrackData("X2", 10000, 10000, 5200, new DateTime());
             trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
             List<String> uutList = uut.SeperationCheck(trackList);
             Assert.IsEmpty(uutList);
