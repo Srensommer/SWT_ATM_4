@@ -36,6 +36,8 @@ namespace ATMUnitTest
 
             uut = new FlightCalculator(_fakeVelocityCalculator, _fakeDirectionCalculator, _fakeCollisionDetector);
         }
+
+
         [Test]
         public void FlightCalculatorCreateFlights()
         {
@@ -45,7 +47,7 @@ namespace ATMUnitTest
 
             List<TrackData> trackData = new List<TrackData>{track1, track2};
 
-            flightData =  uut.Calculate(flightData, trackData);
+            uut.Calculate(flightData, trackData);
             flightData.TryGetValue("test1", out FlightData result);
             
             Assert.AreEqual(result.CurrentTrackData, track1);
@@ -61,9 +63,9 @@ namespace ATMUnitTest
             TrackData track2 = new TrackData("test", 11000, 10000, 5500, new DateTime(2019, 10, 31, 10, 0, 1));
             
             List<TrackData> trackData = new List<TrackData> { track1 };
-            flightData = uut.Calculate(flightData, trackData);
+            uut.Calculate(flightData, trackData);
             trackData = new List<TrackData>{track2};
-            flightData = uut.Calculate(flightData, trackData);
+            uut.Calculate(flightData, trackData);
 
             flightData.TryGetValue("test", out FlightData result);
 
@@ -77,10 +79,10 @@ namespace ATMUnitTest
             Dictionary<String, FlightData> flightData = new Dictionary<String, FlightData>();
             TrackData track1 = new TrackData("test", 10000, 10000, 5500, new DateTime(2019, 10, 31, 10, 0, 0));
             List<TrackData> trackData = new List<TrackData> { track1 };
-            flightData = uut.Calculate(flightData, trackData);
+            uut.Calculate(flightData, trackData);
             TrackData track2 = new TrackData("test", 11000, 11000, 5500, new DateTime(2019, 10, 31, 10, 0, 1));
             trackData = new List<TrackData> { track2 };
-            flightData = uut.Calculate(flightData, trackData);
+            uut.Calculate(flightData, trackData);
 
             flightData.TryGetValue("test", out FlightData result);
 
@@ -88,6 +90,49 @@ namespace ATMUnitTest
             _fakeDirectionCalculator.Received().CalculateDirection(track1, track2);
         }
 
+        [Test]
+        public void FlightCalculatorCollision()
+        {
+            Dictionary<String, FlightData> flightData = new Dictionary<String, FlightData>();
+            TrackData track1 = new TrackData("test", 10000, 10000, 5500, new DateTime(2019, 10, 31, 10, 0, 0));
+            TrackData track2 = new TrackData("test", 11000, 11000, 5500, new DateTime(2019, 10, 31, 10, 0, 1));
 
+            List<TrackData> trackData = new List<TrackData> { track1, track2 };
+            List<String> result = new List<string> {track1.Tag, track2.Tag};
+
+            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(result);
+
+            uut.Calculate(flightData, trackData);
+
+            _fakeCollisionDetector.Received().SeperationCheck(trackData);
+
+            foreach (KeyValuePair<String, FlightData> entry in flightData)
+            {
+                Assert.IsTrue(entry.Value.CollisionFlag);
+            }
+        }
+
+
+        [Test]
+        public void FlightCalculatorNoCollision()
+        {
+            Dictionary<String, FlightData> flightData = new Dictionary<String, FlightData>();
+            TrackData track1 = new TrackData("test", 10000, 10000, 5500, new DateTime(2019, 10, 31, 10, 0, 0));
+            TrackData track2 = new TrackData("test", 11000, 11000, 5500, new DateTime(2019, 10, 31, 10, 0, 1));
+
+            List<TrackData> trackData = new List<TrackData> { track1, track2 };
+            List<String> result = new List<string> { track1.Tag, track2.Tag };
+
+            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(new List<string>());
+
+            uut.Calculate(flightData, trackData);
+
+            _fakeCollisionDetector.Received().SeperationCheck(trackData);
+
+            foreach (KeyValuePair<String, FlightData> entry in flightData)
+            {
+                Assert.IsFalse(entry.Value.CollisionFlag);
+            }
+        }
     }
 }
