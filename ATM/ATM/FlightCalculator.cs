@@ -7,10 +7,10 @@ using NUnit.Framework;
 
 namespace ATM
 {
-    class FlightCalculator
+    public class FlightCalculator : IFlightCalculator
     {
         private readonly CollisionDetector _collisionDetector;
-        FlightCalculator()
+        public FlightCalculator()
         {
             _collisionDetector = new CollisionDetector();
         }
