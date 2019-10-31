@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using ATM;
 using NUnit.Framework;
-using ATM_Application;
 using TransponderReceiver;
 
 namespace ATMUnitTest
