@@ -13,7 +13,7 @@ namespace ATM
             double directionInRadians = Math.Atan2(currData.X - prevData.X, currData.Y - prevData.Y);
             return RadiansToDegrees(directionInRadians);
         }
-        public static double RadiansToDegrees(double radians)
+        public double RadiansToDegrees(double radians)
         {
             double degrees = 180 / Math.PI * radians;
             if (degrees<0)
