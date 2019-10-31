@@ -21,6 +21,9 @@ namespace ATMUnitTest
         private IDecoder _fakeDecoder;
         private ITransponderReceiver _fakeReceiver;
 
+        private List<TrackData> _fakeTrackData;
+        private RawTransponderDataEventArgs _fakeEventArgs;
+
         [SetUp]
         public void Setup()
         {
@@ -30,16 +33,34 @@ namespace ATMUnitTest
             _fakeDecoder = Substitute.For<IDecoder>();
             _fakeReceiver = Substitute.For<ITransponderReceiver>();
 
-            _uut = new ATMController(_fakeDecoder, _fakeTrackDataFilter, _fakeDisplay, _fakeReceiver);
+            _fakeEventArgs = new RawTransponderDataEventArgs(new List<string>());
+            _fakeTrackData = new List<TrackData>();
 
-            
+            //Fake decoder should return fakeTrackdata when called with fakeEventArgs
+            _fakeDecoder.Decode(_fakeEventArgs).Returns(_fakeTrackData);
+
+            _fakeTrackDataFilter.Filter(_fakeTrackData).Returns(_fakeTrackData);
+
+            _uut = new ATMController(_fakeDecoder, _fakeTrackDataFilter, _fakeDisplay, _fakeReceiver);
         }
 
         [Test]
-        public void Test()
+        public void ATMController_EventIsRaised_AllDependenciesCalled()
         {
             //Act
-            _fakeReceiver.TransponderDataReady += Raise.EventWith<RawTransponderDataEventArgs>();
+            _fakeReceiver.TransponderDataReady += Raise.EventWith(new object(), _fakeEventArgs);
+
+            //Assert
+
+            //Decoder called with correct EventArgs
+            _fakeDecoder.Received().Decode(_fakeEventArgs);
+
+            //Filter called with correct track data
+            _fakeTrackDataFilter.Received().Filter(_fakeTrackData);
+
+            //Display called with correct track data
+            _fakeDisplay.Received().Clear();
+            _fakeDisplay.Received().Render(_fakeTrackData);
         }
     }
 }
