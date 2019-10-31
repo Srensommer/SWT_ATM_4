@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ATM;
 
-namespace TransponderReceiver
+namespace ATM
 {
     public class Display : IDisplay
     {
