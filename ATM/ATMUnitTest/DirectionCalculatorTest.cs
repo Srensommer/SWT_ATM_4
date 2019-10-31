@@ -56,5 +56,19 @@ namespace ATMUnitTest
             TrackData curr = new TrackData(dummyTag, dummyX, 50001, dummyAltitude, dummyTimestamp);
             Assert.AreEqual(0, DirectionCalculator.CalculateDirection(prev, curr));
         }
+        [Test]
+        public void DirectionCalculator1PositiveMovementStepOnXandYReturns45Test()
+        {
+            TrackData prev = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            TrackData curr = new TrackData(dummyTag, 20001, 50001, dummyAltitude, dummyTimestamp);
+            Assert.AreEqual(45, DirectionCalculator.CalculateDirection(prev, curr));
+        }
+        [Test]
+        public void DirectionCalculator1PositiveMovementStepOnX2stepsOnYReturns45Test()
+        {
+            TrackData prev = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
+            TrackData curr = new TrackData(dummyTag, 20001, 50002, dummyAltitude, dummyTimestamp);
+            Assert.AreEqual(26.565, DirectionCalculator.CalculateDirection(prev, curr));
+        }
     }
 }
