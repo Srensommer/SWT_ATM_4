@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ATM;
 
-namespace ATM_Application
+namespace ATM
 {
     public interface ITrackDataFilter
     {

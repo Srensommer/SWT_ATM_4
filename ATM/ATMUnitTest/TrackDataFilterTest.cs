@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using NSubstitute;
 using TransponderReceiver;
-using ATM_Application;
 using System.Collections.Generic;
 using System;
 using System.ComponentModel.Design;
