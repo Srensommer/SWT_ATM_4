@@ -9,10 +9,6 @@ namespace ATM
 {
     public class Decoder : IDecoder
     {
-        public Decoder()
-        {
-        }
-
         public List<TrackData> Decode(RawTransponderDataEventArgs e)
         {
             List<TrackData> data = new List<TrackData>();
