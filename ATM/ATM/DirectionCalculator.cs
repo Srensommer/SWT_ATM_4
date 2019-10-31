@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace ATM
 {
-    public class DirectionCalculator
+    public static class DirectionCalculator
     {
-        public double CalculateDirection(TrackData prevData, TrackData currData)
+        public static double CalculateDirection(TrackData prevData, TrackData currData)
         {
             double directionInRadians = Math.Atan2(currData.X - prevData.X, currData.Y - prevData.Y);
             return RadiansToDegrees(directionInRadians);
         }
-        public double RadiansToDegrees(double radians)
+        public static double RadiansToDegrees(double radians)
         {
             double degrees = 180 / Math.PI * radians;
             if (degrees<0)
