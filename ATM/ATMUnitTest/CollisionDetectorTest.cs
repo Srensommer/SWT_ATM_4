@@ -19,39 +19,38 @@ namespace ATMUnitTest
         public void Setup()
         {
             uut = new CollisionDetector();
-
         }
-        [TestCase()]
-        public void CollisionDetectorNoCollisionAltitude()
+        [Test]
+        public void CollisionDetectorNoCollisionVerticalDistance()
         {
             TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
             TrackData dummyTrackData2 = new TrackData("X2", 10000, 10000, 5300, new DateTime());
-            Assert.IsFalse(uut.seperationCheck(dummyTrackData1, dummyTrackData2));
+            List<TrackData> trackList = new List<TrackData>{dummyTrackData1, dummyTrackData2};
+            List<String> testList = new List<string>();
+            testList = uut.SeperationCheck(trackList);
+            Assert.IsEmpty(testList);
         }
 
-        [TestCase()]
-        public void CollisionDetectorCollisionAltitude()
+        [Test]
+        public void CollisionDetectorNoCollisionHorizontalPlane()
         {
             TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
-            TrackData dummyTrackData2 = new TrackData("X2", 10000, 10000, 5200, new DateTime());
-            Assert.IsTrue(uut.seperationCheck(dummyTrackData1, dummyTrackData2));
+            TrackData dummyTrackData2 = new TrackData("X2", 15000, 10000, 5400, new DateTime());
+            List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+            List<String> testList = new List<string>();
+            testList = uut.SeperationCheck(trackList);
+            Assert.IsEmpty(testList);
         }
 
-        [TestCase()]
-        public void CollisionDetectorNoCollisionHorizontal()
+        [Test]
+        public void CollisionDetectorCollision()
         {
-            TrackData dummyTrackData1 = new TrackData("X1", 12500, 12500, 5000, new DateTime());
-            TrackData dummyTrackData2 = new TrackData("X2", 10000, 10000, 5000, new DateTime());
-            Assert.IsFalse(uut.seperationCheck(dummyTrackData1, dummyTrackData2));
+            TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
+            TrackData dummyTrackData2 = new TrackData("X2", 11000, 11000, 5200, new DateTime());
+            List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+            List<String> tagList = new List<String> { dummyTrackData1.Tag, dummyTrackData2.Tag };
+            List<String> uutList = uut.SeperationCheck(trackList);
+            Assert.AreEqual(tagList, uutList);
         }
-
-        [TestCase()]
-        public void CollisionDetectorCollisionHorizontal()
-        {
-            TrackData dummyTrackData1 = new TrackData("X1", 12000, 12000, 5000, new DateTime());
-            TrackData dummyTrackData2 = new TrackData("X2", 10000, 10000, 5000, new DateTime());
-            Assert.IsTrue(uut.seperationCheck(dummyTrackData1, dummyTrackData2));
-        }
-
     }
 }
