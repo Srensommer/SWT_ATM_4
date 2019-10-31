@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ATM
 {
-    public class CollisionDetector
+    public class CollisionDetector : ICollisionDetector
     {
         private List<String> _collisonTagList = new List<string>();
         public List<String> SeperationCheck(List<TrackData> trackList)
@@ -40,6 +40,7 @@ namespace ATM
             
             return collisionList;
         }
+
         private void printToFile(TrackData track1, TrackData track2)
         {
         //Log hvornår seperation condition skete. Dette skal indeholde tid for sep con. og tag for de pågældende fly

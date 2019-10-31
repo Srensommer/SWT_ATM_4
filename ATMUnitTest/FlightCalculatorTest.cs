@@ -5,20 +5,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ATM;
+using NSubstitute.Core.DependencyInjection;
 using NUnit.Framework;
+using NSubstitute;
+
 
 namespace ATMUnitTest
 {
 
     [TestFixture]
-    class FLightCalculatorTest
+    class FlightCalculatorTest
     {
         private IFlightCalculator uut;
+
+        private IVelocityCalculator _fakeVelocityCalculator;
+        private IDirectionCalculator _fakeDirectionCalculator;
+        private ICollisionDetector _fakeCollisionDetector;
 
         [SetUp]
         public void Setup()
         {
-            uut = new FlightCalculator();
+            _fakeVelocityCalculator = Substitute.For<IVelocityCalculator>();
+            _fakeDirectionCalculator = Substitute.For<IDirectionCalculator>();
+            _fakeCollisionDetector = Substitute.For<ICollisionDetector>();
+
+            _fakeVelocityCalculator.CalculateSpeed(Arg.Any<TrackData>(), Arg.Any<TrackData>()).Returns(1000);
+            _fakeDirectionCalculator.CalculateDirection(Arg.Any<TrackData>(), Arg.Any<TrackData>()).Returns(45);
+            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(new List<String>());
+
+
+            uut = new FlightCalculator(_fakeVelocityCalculator, _fakeDirectionCalculator, _fakeCollisionDetector);
         }
         [Test]
         public void FlightCalculatorCreateFlights()
@@ -42,15 +58,17 @@ namespace ATMUnitTest
         {
             Dictionary<String, FlightData> flightData = new Dictionary<String, FlightData>();
             TrackData track1 = new TrackData("test", 10000, 10000, 5500, new DateTime(2019, 10, 31, 10, 0, 0));
+            TrackData track2 = new TrackData("test", 11000, 10000, 5500, new DateTime(2019, 10, 31, 10, 0, 1));
+            
             List<TrackData> trackData = new List<TrackData> { track1 };
             flightData = uut.Calculate(flightData, trackData);
-            TrackData track2 = new TrackData("test", 11000, 10000, 5500, new DateTime(2019, 10, 31, 10, 0, 1));
             trackData = new List<TrackData>{track2};
             flightData = uut.Calculate(flightData, trackData);
 
             flightData.TryGetValue("test", out FlightData result);
 
             Assert.AreEqual(1000, result.Velocity);
+            _fakeVelocityCalculator.Received().CalculateSpeed(track1, track2);
         }
 
         [Test]
@@ -67,6 +85,7 @@ namespace ATMUnitTest
             flightData.TryGetValue("test", out FlightData result);
 
             Assert.AreEqual(45, result.CompassCourse);
+            _fakeDirectionCalculator.Received().CalculateDirection(track1, track2);
         }
 
 
