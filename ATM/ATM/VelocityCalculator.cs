@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,17 +9,31 @@ namespace ATM
 {
     public class VelocityCalculator
     {
-        public double CalculateSpeed(TrackData prevData, TrackData currData)
+        public List<TrackData> CalculateSpeed(List<TrackData> prevData, List<TrackData> currData)
         {
-            if (prevData.Tag == currData.Tag)
+            foreach (var currDataTrack in currData)
             {
-                int diffX = Math.Abs(prevData.X - currData.X);
-                int diffY = Math.Abs(prevData.Y - currData.Y);
-                var diffTime = Math.Abs((prevData.Timestamp - currData.Timestamp).TotalSeconds);
-                double velocity = Math.Sqrt(Math.Pow(diffX, 2) + Math.Pow(diffY, 2)) / diffTime;
-                return velocity;
+                foreach (var prevDataTrack in prevData)
+                {
+                    if (currDataTrack.Tag == prevDataTrack.Tag)
+                    {
+                        var TrackWVelocity = new List<TrackData> { };
+                        int diffX = Math.Abs(prevDataTrack.X - currDataTrack.X);
+                        int diffY = Math.Abs(prevDataTrack.Y - currDataTrack.Y);
+                        var diffTime = Math.Abs((prevDataTrack.Timestamp - currDataTrack.Timestamp).TotalSeconds);
+                        if (diffTime != 0)
+                        {
+                            double velocity = Math.Sqrt(Math.Pow(diffX, 2) + Math.Pow(diffY, 2)) / diffTime;
+                            currDataTrack.Velocity = velocity;
+                            //TrackWVelocity.Add();
+                        }
+                        //return 0;
+                    }
+                }
             }
-            return 0;
+
+            return prevData;
+            //return 0;
         }
         //BigBooBoo test - sæt det her i main med et breakpoint, og se at IT NO WORK GOOD
         //var penis = new HorizontalSpeedCalculator();
