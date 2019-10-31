@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +11,16 @@ namespace ATM
     public class CollisionDetector : ICollisionDetector
     {
         private List<String> _collisonTagList = new List<string>();
+        private string path = "..\\..\\..\\Log.txt";
+
+
+        public CollisionDetector()
+        {
+            string createText = "LogFile" + Environment.NewLine + Environment.NewLine;
+            File.WriteAllText(path, createText);
+        }
+
+
         public List<String> SeperationCheck(List<TrackData> trackList)
         {
             List<String> collisionList = new List<String>();
@@ -44,7 +55,6 @@ namespace ATM
 
         private void printToFile(TrackData track1, TrackData track2)
         {
-            string path = @".\log.txt";
             string appendText = "Time of occurrence: " + new DateTime() + ", Tags: " + track1.Tag + ", " + track2.Tag + Environment.NewLine;
             File.AppendAllText(path, appendText);
         }
