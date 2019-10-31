@@ -10,9 +10,14 @@ namespace ATM
     {
         public static double CalculateDirection(TrackData prevData, TrackData currData)
         {
-            double directionInRadians = Math.Atan2(currData.X - prevData.X, currData.Y - prevData.Y);
-            return RadiansToDegrees(directionInRadians);
+            if (currData.Tag == prevData.Tag)
+            {
+                double directionInRadians = Math.Atan2(currData.X - prevData.X, currData.Y - prevData.Y);
+                return RadiansToDegrees(directionInRadians);
+            }
+            return 0;
         }
+
         public static double RadiansToDegrees(double radians)
         {
             double degrees = 180 / Math.PI * radians;

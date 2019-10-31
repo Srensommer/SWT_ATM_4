@@ -22,7 +22,7 @@ namespace ATMUnitTest
         {  
         }
         [Test]
-        public void DirectionCalculatorNoMovementReturns0Test()
+        public void DirectionCalculatorNoMovementNoTimeReturns0Test()
         {
             TrackData prev = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData curr = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);

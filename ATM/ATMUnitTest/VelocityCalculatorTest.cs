@@ -25,21 +25,21 @@ namespace ATMUnitTest
 
         }
         [Test]
-        public void VelocityCalculatorReturns0()
+        public void VelocityCalculatorSameDataReturns0()
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp2);
             Assert.AreEqual(0, VelocityCalculator.CalculateSpeed(dummyTrackData1, dummyTrackData2));
         }
         [Test]
-        public void VelocityCalculatorReturns10()
+        public void VelocityCalculatorOnlyDifferenceInTimeReturns0()
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX2, dummyY, dummyAltitude, dummyTimestamp2);
             Assert.AreEqual(10, VelocityCalculator.CalculateSpeed(dummyTrackData1, dummyTrackData2));
         }
         [Test]
-        public void VelocityCalculatorReturns2()
+        public void VelocityCalculator10MeterIn5SecondsReturns2()
         {
             TrackData dummyTrackData1 = new TrackData(dummyTag, dummyX, dummyY, dummyAltitude, dummyTimestamp);
             TrackData dummyTrackData2 = new TrackData(dummyTag, dummyX2, dummyY, dummyAltitude, dummyTimestamp3);
