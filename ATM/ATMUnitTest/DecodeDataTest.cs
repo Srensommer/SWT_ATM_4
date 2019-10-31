@@ -27,7 +27,6 @@ namespace ATMUnitTest
         {
             List<TrackData> expectedTrackData = createTestDataList(seed);
             RawTransponderDataEventArgs testData = CreateTestDataRaw(seed);
-
             List<TrackData> actualTrackData = _uut.Decode(testData);
 
             for (int i = 0; i < actualTrackData.Count(); i++)
