@@ -109,5 +109,19 @@ namespace ATMUnitTest
             List<String> tagList = new List<String> { dummyTrackData1.Tag, dummyTrackData2.Tag };
             Assert.AreEqual(tagList, uutList);
         }
+
+        [Test]
+        public void GenerateCollisionString()
+        {
+            TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
+            TrackData dummyTrackData2 = new TrackData("X2", 10000, 11000, 5000, new DateTime());
+            List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+
+            Tuple<List<string>, List<string>> uutTuple = uut.SeperationCheck(trackList);
+
+            Assert.AreEqual(uutTuple.Item1[0], "X1");
+            Assert.AreEqual(uutTuple.Item1[1], "X2");
+
+        }
     }
 }
