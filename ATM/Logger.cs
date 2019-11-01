@@ -18,7 +18,7 @@ namespace ATM
             File.WriteAllText(path, createText);
         }
 
-        public void LogCollision(List<string> logList)
+        public void PrintToFile(List<string> logList)
         {
             foreach (string log in logList)
             {

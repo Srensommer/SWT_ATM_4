@@ -50,7 +50,7 @@ namespace ATMUnitTest
             string expected = "TEST420 420 111 9000 2/1/2020 10:20:30 Course 10 Velocity 999\r\n";
 
             // Act
-            _uut.Render(testData);
+            _uut.Render(testData, new List<string>());
 
             // Assert
             Assert.AreEqual(expected, _fakeConsole.ToString());

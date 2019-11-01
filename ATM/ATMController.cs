@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ATM;
+using NUnit.Framework;
 using TransponderReceiver;
 
 namespace ATM
@@ -17,6 +18,7 @@ namespace ATM
         private ICollisionDetector _collisionDetector;
         private IDisplay _display;
         private ITransponderReceiver _receiver;
+        private ILogger _logger;
 
         private Dictionary<string, FlightData> _data;
 
@@ -28,6 +30,7 @@ namespace ATM
             _display = display;
             _receiver = receiver;
             _flightCalculator = flightCalculator;
+            _logger = new Logger();
 
             _data = new Dictionary<string, FlightData>();
 
@@ -51,9 +54,24 @@ namespace ATM
             //Update existing flight data
             _data = _flightCalculator.Calculate(_data, trackData);
 
+            //Collision Detect
+            Tuple<List<string>, List<string>> collisionResult = _collisionDetector.SeperationCheck(trackData);
+            List<string> collisionTags = collisionResult.Item1;
+            List<string> logList = collisionResult.Item2;
+
+
+            //Set CollisionFlag on flights
+            foreach (KeyValuePair<string, FlightData> entry in _data)
+            {
+                entry.Value.CollisionFlag = collisionTags.Contains(entry.Value.Tag);
+            }
+
+            //Print to log
+            _logger.PrintToFile(logList);
+
             //Display Data
             _display.Clear();
-            _display.Render(_data);
+            _display.Render(_data, logList);
         }
     }
 }

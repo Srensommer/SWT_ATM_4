@@ -12,9 +12,10 @@ namespace ATM
     {
         private List<String> _collisonTagList = new List<string>();
 
-        public List<String> SeperationCheck(List<TrackData> trackList)
+        public Tuple<List<String>, List<String>> SeperationCheck(List<TrackData> trackList)
         {
-            List<String> collisionList = new List<String>();
+            List<string> collisionList = new List<string>();
+            List<string> conditionPrintList = new List<string>();
 
             foreach (TrackData track1 in trackList)
             {
@@ -26,7 +27,7 @@ namespace ATM
                     if (collisionList.Contains(track1.Tag) && collisionList.Contains(track2.Tag)) continue;
                     if (!(_collisonTagList.Contains(track1.Tag) && _collisonTagList.Contains(track2.Tag)))
                     {
-                        GenerateConditionString(track1, track2);
+                        conditionPrintList.Add(GenerateConditionString(track1, track2));
                     }
                     
                     collisionList.Add(track1.Tag);
@@ -35,8 +36,7 @@ namespace ATM
             }
 
             _collisonTagList = collisionList;
-            
-            return collisionList;
+            return Tuple.Create(collisionList, conditionPrintList);
         }
 
         private String GenerateConditionString(TrackData track1, TrackData track2)
@@ -44,6 +44,5 @@ namespace ATM
             string appendText = "Time of occurrence: " + track1.Timestamp + ", Tags: " + track1.Tag + ", " + track2.Tag + Environment.NewLine;
             return appendText;
         }
-
     }
 }

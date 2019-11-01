@@ -5,6 +5,6 @@ namespace ATM
 {
     public interface ICollisionDetector
     {
-        List<String> SeperationCheck(List<TrackData> trackList);
+        Tuple<List<String>, List<String>> SeperationCheck(List<TrackData> trackList);
     }
 }

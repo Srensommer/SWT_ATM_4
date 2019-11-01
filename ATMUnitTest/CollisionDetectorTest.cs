@@ -26,7 +26,8 @@ namespace ATMUnitTest
             TrackData dummyTrackData2 = new TrackData("X2", 10000, 10000, 5400, new DateTime());
             List<TrackData> trackList = new List<TrackData>{dummyTrackData1, dummyTrackData2};
             List<String> testList = new List<string>();
-            testList = uut.SeperationCheck(trackList);
+            Tuple<List<string>, List<string>> uutTuple = uut.SeperationCheck(trackList);
+            List<string> uutList = uutTuple.Item1;
             Assert.IsEmpty(testList);
         }
 
@@ -37,7 +38,8 @@ namespace ATMUnitTest
             TrackData dummyTrackData2 = new TrackData("X2", 15000, 10000, 5200, new DateTime());
             List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
             List<String> testList = new List<string>();
-            testList = uut.SeperationCheck(trackList);
+            Tuple<List<string>, List<string>> uutTuple = uut.SeperationCheck(trackList);
+            List<string> uutList = uutTuple.Item1;
             Assert.IsEmpty(testList);
         }
 
@@ -48,7 +50,8 @@ namespace ATMUnitTest
             TrackData dummyTrackData2 = new TrackData("X2", 11000, 11000, 5200, new DateTime());
             List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
             List<String> tagList = new List<String> { dummyTrackData1.Tag, dummyTrackData2.Tag };
-            List<String> uutList = uut.SeperationCheck(trackList);
+            Tuple<List<string>, List<string>> uutTuple = uut.SeperationCheck(trackList);
+            List<string> uutList = uutTuple.Item1;
             Assert.AreEqual(tagList, uutList);
         }
 
@@ -62,7 +65,8 @@ namespace ATMUnitTest
             uut.SeperationCheck(trackList);
             dummyTrackData1 = new TrackData("X1", 11000, 11000, 5000, new DateTime());
             dummyTrackData2 = new TrackData("X2", 12000, 12000, 5200, new DateTime());
-            List<String> uutList = uut.SeperationCheck(trackList);
+            Tuple<List<string>, List<string>> uutTuple = uut.SeperationCheck(trackList);
+            List<string> uutList = uutTuple.Item1;
 
             Assert.AreEqual(tagList, uutList);
         }
@@ -78,7 +82,8 @@ namespace ATMUnitTest
             dummyTrackData1 = new TrackData("X1", 20000, 10000, 5000, new DateTime());
             dummyTrackData2 = new TrackData("X2", 10000, 10000, 5200, new DateTime());
             trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
-            List<String> uutList = uut.SeperationCheck(trackList);
+            Tuple<List<string>, List<string>> uutTuple = uut.SeperationCheck(trackList);
+            List<string> uutList = uutTuple.Item1;
             Assert.IsEmpty(uutList);
         }
 
@@ -99,7 +104,8 @@ namespace ATMUnitTest
             dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
             dummyTrackData2 = new TrackData("X2", 11000, 11000, 5200, new DateTime());
             trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
-            List<String> uutList = uut.SeperationCheck(trackList);
+            Tuple<List<string>, List<string>> uutTuple = uut.SeperationCheck(trackList);
+            List<string> uutList = uutTuple.Item1;
             List<String> tagList = new List<String> { dummyTrackData1.Tag, dummyTrackData2.Tag };
             Assert.AreEqual(tagList, uutList);
         }

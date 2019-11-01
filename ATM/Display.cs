@@ -9,14 +9,18 @@ namespace ATM
 {
     public class Display : IDisplay
     {
-        public void Render(Dictionary<string, FlightData> flightData)
+        public void Render(Dictionary<string, FlightData> flightData, List<string> logList)
         {
-            foreach (FlightData flight in flightData.Values)
+            if (logList.Count > 0)
             {
-                if (flight.CollisionFlag)
+                Console.WriteLine("!!!!   WARNING   !!!!");
+                Console.WriteLine("Collisions: ");
+                foreach (string log in logList)
                 {
-                    System.Console.WriteLine($"Oh no, collision on flight { flight.Tag }");
+                    Console.WriteLine(log);
                 }
+                Console.WriteLine();
+                Console.WriteLine();
             }
             foreach (FlightData flight in flightData.Values)
             {

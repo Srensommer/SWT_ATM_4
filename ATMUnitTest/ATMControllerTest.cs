@@ -77,7 +77,7 @@ namespace ATMUnitTest
 
             //Display called with correct track data
             _fakeDisplay.Received().Clear();
-            _fakeDisplay.Received().Render(_fakeFlightData);
+            _fakeDisplay.Received().Render(_fakeFlightData, new List<string>());
         }
     }
 }

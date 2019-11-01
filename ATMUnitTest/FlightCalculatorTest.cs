@@ -97,9 +97,8 @@ namespace ATMUnitTest
             TrackData track2 = new TrackData("test", 11000, 11000, 5500, new DateTime(2019, 10, 31, 10, 0, 1));
 
             List<TrackData> trackData = new List<TrackData> { track1, track2 };
-            List<String> result = new List<string> {track1.Tag, track2.Tag};
-
-            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(result);
+            Tuple<List<string>, List<string>> resultTuple = new Tuple<List<string>, List<string>>(new List<string>(), new List<string>());
+            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(resultTuple);
 
             uut.Calculate(flightData, trackData);
 
@@ -122,7 +121,8 @@ namespace ATMUnitTest
             List<TrackData> trackData = new List<TrackData> { track1, track2 };
             List<String> result = new List<string> { track1.Tag, track2.Tag };
 
-            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(new List<string>());
+            Tuple<List<string>, List<string>> resultTuple = new Tuple<List<string>, List<string>>(new List<string>(), new List<string>());
+            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(resultTuple);
 
             uut.Calculate(flightData, trackData);
 
