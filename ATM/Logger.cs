@@ -18,12 +18,9 @@ namespace ATM
             File.WriteAllText(path, createText);
         }
 
-        public void PrintToFile(List<string> logList)
+        public void PrintToFile(string log)
         {
-            foreach (string log in logList)
-            {
-                File.AppendAllText(path, log);
-            }
+            File.AppendAllText(path, log);
         }
     }
 }

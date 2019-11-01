@@ -1,2 +1,3 @@
 LogFile
 
+Time of occurrence: 01-Nov-19 1:40:08, Tags: OHX282, DFW426

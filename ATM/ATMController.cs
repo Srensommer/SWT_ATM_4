@@ -18,7 +18,6 @@ namespace ATM
         private ICollisionDetector _collisionDetector;
         private IDisplay _display;
         private ITransponderReceiver _receiver;
-        private ILogger _logger;
 
         private Dictionary<string, FlightData> _data;
 
@@ -30,7 +29,6 @@ namespace ATM
             _display = display;
             _receiver = receiver;
             _flightCalculator = flightCalculator;
-            _logger = new Logger();
 
             _data = new Dictionary<string, FlightData>();
 
@@ -57,7 +55,7 @@ namespace ATM
             //Collision Detect
             Tuple<List<string>, List<string>> collisionResult = _collisionDetector.SeperationCheck(trackData);
             List<string> collisionTags = collisionResult.Item1;
-            List<string> logList = collisionResult.Item2;
+            List<string> displayCollisionList = collisionResult.Item2;
 
 
             //Set CollisionFlag on flights
@@ -66,12 +64,9 @@ namespace ATM
                 entry.Value.CollisionFlag = collisionTags.Contains(entry.Value.Tag);
             }
 
-            //Print to log
-            _logger.PrintToFile(logList);
-
             //Display Data
             _display.Clear();
-            _display.Render(_data, logList);
+            _display.Render(_data, displayCollisionList);
         }
     }
 }

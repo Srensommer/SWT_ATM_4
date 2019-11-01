@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,11 +12,18 @@ namespace ATM
     public class CollisionDetector : ICollisionDetector
     {
         private List<String> _collisonTagList = new List<string>();
+        List<string> collisionDisplayList = new List<string>();
+
+        private readonly ILogger _logger;
+
+        public CollisionDetector()
+        {
+            _logger = new Logger();
+        }
 
         public Tuple<List<String>, List<String>> SeperationCheck(List<TrackData> trackList)
         {
             List<string> collisionList = new List<string>();
-            List<string> conditionPrintList = new List<string>();
 
             foreach (TrackData track1 in trackList)
             {
@@ -27,22 +35,43 @@ namespace ATM
                     if (collisionList.Contains(track1.Tag) && collisionList.Contains(track2.Tag)) continue;
                     if (!(_collisonTagList.Contains(track1.Tag) && _collisonTagList.Contains(track2.Tag)))
                     {
-                        conditionPrintList.Add(GenerateConditionString(track1, track2));
+                        string collisionString = GenerateCollisionString(track1, track2);
+                        collisionDisplayList.Add(collisionString);
+                        _logger.PrintToFile(collisionString);
                     }
                     
                     collisionList.Add(track1.Tag);
                     collisionList.Add(track2.Tag);
                 }
             }
-
             _collisonTagList = collisionList;
-            return Tuple.Create(collisionList, conditionPrintList);
+
+            RemoveCollisionStrings(_collisonTagList, collisionDisplayList);
+
+            return Tuple.Create(_collisonTagList, collisionDisplayList);
         }
 
-        private String GenerateConditionString(TrackData track1, TrackData track2)
+        private String GenerateCollisionString(TrackData track1, TrackData track2)
         {
             string appendText = "Time of occurrence: " + track1.Timestamp + ", Tags: " + track1.Tag + ", " + track2.Tag + Environment.NewLine;
             return appendText;
+        }
+
+        private void RemoveCollisionStrings(List<string> collisionsTags, List<string> collisionStringList)
+        {
+            List<string> newCollisionDisplayList = new List<string>();
+
+            foreach (string collision in collisionDisplayList)
+            {
+                foreach (string tag in collisionsTags)
+                {
+                    if (collision.Contains(tag))
+                    {
+                        newCollisionDisplayList.Add(collision);
+                    }
+                }
+            }
+            collisionDisplayList = newCollisionDisplayList;
         }
     }
 }

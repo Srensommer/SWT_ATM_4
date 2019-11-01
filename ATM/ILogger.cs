@@ -4,6 +4,6 @@ namespace ATM
 {
     public interface ILogger
     {
-        void PrintToFile(List<string> logList);
+        void PrintToFile(string log);
     }
 }

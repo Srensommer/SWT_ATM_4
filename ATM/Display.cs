@@ -14,7 +14,7 @@ namespace ATM
             if (logList.Count > 0)
             {
                 Console.WriteLine("!!!!   WARNING   !!!!");
-                Console.WriteLine("Collisions: ");
+                Console.WriteLine("Collisions:");
                 foreach (string log in logList)
                 {
                     Console.WriteLine(log);

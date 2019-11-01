@@ -88,50 +88,6 @@ namespace ATMUnitTest
             Assert.AreEqual(45, result.CompassCourse);
             _fakeDirectionCalculator.Received().CalculateDirection(track1, track2);
         }
-
-        [Test]
-        public void FlightCalculatorCollision()
-        {
-            Dictionary<String, FlightData> flightData = new Dictionary<String, FlightData>();
-            TrackData track1 = new TrackData("test", 10000, 10000, 5500, new DateTime(2019, 10, 31, 10, 0, 0));
-            TrackData track2 = new TrackData("test", 11000, 11000, 5500, new DateTime(2019, 10, 31, 10, 0, 1));
-
-            List<TrackData> trackData = new List<TrackData> { track1, track2 };
-            Tuple<List<string>, List<string>> resultTuple = new Tuple<List<string>, List<string>>(new List<string>(), new List<string>());
-            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(resultTuple);
-
-            uut.Calculate(flightData, trackData);
-
-            _fakeCollisionDetector.Received().SeperationCheck(trackData);
-
-            foreach (KeyValuePair<String, FlightData> entry in flightData)
-            {
-                Assert.IsTrue(entry.Value.CollisionFlag);
-            }
-        }
-
-
-        [Test]
-        public void FlightCalculatorNoCollision()
-        {
-            Dictionary<String, FlightData> flightData = new Dictionary<String, FlightData>();
-            TrackData track1 = new TrackData("test", 10000, 10000, 5500, new DateTime(2019, 10, 31, 10, 0, 0));
-            TrackData track2 = new TrackData("test", 11000, 11000, 5500, new DateTime(2019, 10, 31, 10, 0, 1));
-
-            List<TrackData> trackData = new List<TrackData> { track1, track2 };
-            List<String> result = new List<string> { track1.Tag, track2.Tag };
-
-            Tuple<List<string>, List<string>> resultTuple = new Tuple<List<string>, List<string>>(new List<string>(), new List<string>());
-            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(resultTuple);
-
-            uut.Calculate(flightData, trackData);
-
-            _fakeCollisionDetector.Received().SeperationCheck(trackData);
-
-            foreach (KeyValuePair<String, FlightData> entry in flightData)
-            {
-                Assert.IsFalse(entry.Value.CollisionFlag);
-            }
-        }
+    
     }
 }
