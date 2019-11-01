@@ -28,7 +28,6 @@ namespace ATMUnitTest
             Console.SetOut(_fakeConsole);
         }
 
-
         [Test]
         public void TestDisplay()
         {
@@ -54,9 +53,6 @@ namespace ATMUnitTest
 
             // Assert
             Assert.AreEqual(expected, _fakeConsole.ToString());
-
-
-            
         }
     }
 }
