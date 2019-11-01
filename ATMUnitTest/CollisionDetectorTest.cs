@@ -123,5 +123,22 @@ namespace ATMUnitTest
             Assert.AreEqual(uutTuple.Item1[1], "X2");
 
         }
+
+        [Test]
+        public void RemoveCollisionString()
+        {
+            TrackData dummyTrackData1 = new TrackData("X1", 10000, 10000, 5000, new DateTime());
+            TrackData dummyTrackData2 = new TrackData("X2", 10000, 11000, 5000, new DateTime());
+            List<TrackData> trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+            uut.SeperationCheck(trackList);
+
+            dummyTrackData1 = new TrackData("X1", 1000, 10000, 5000, new DateTime());
+            dummyTrackData2 = new TrackData("X2", 10000, 11000, 5000, new DateTime());
+            trackList = new List<TrackData> { dummyTrackData1, dummyTrackData2 };
+            Tuple<List<string>, List<string>> uutTuple = uut.SeperationCheck(trackList);
+
+            Assert.IsEmpty(uutTuple.Item1);
+
+        }
     }
 }
