@@ -46,7 +46,7 @@ namespace ATMUnitTest
             testData.Add(flightData.Tag, flightData);
 
 
-            string expected = "TEST420 420 111 9000 2/1/2020 10:20:30 Course 10 Velocity 999\r\n";
+            string expected = "Tag:TEST420 X:420 Y:111 A:9000 Time:2/1/2020 10:20:30 Course:10 Velocity:999\r\n";
 
             // Act
             _uut.Render(testData, new List<string>());

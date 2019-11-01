@@ -24,11 +24,11 @@ namespace ATM
             }
             foreach (FlightData flight in flightData.Values)
             {
-                System.Console.WriteLine($"{flight.Tag} {flight.X} {flight.Y} {flight.Altitude} " +
-                                         $"{flight.Timestamp.Day}/{flight.Timestamp.Month}/{flight.Timestamp.Year} " +
+                System.Console.WriteLine($"Tag:{flight.Tag} X:{flight.X} Y:{flight.Y} A:{flight.Altitude} " +
+                                         $"Time:{flight.Timestamp.Day}/{flight.Timestamp.Month}/{flight.Timestamp.Year} " +
                                          $"{ flight.Timestamp:hh:mm:ss}" +
-                                         $" Course { flight.CompassCourse}" +
-                                         $" Velocity { flight.Velocity }");
+                                         $" Course:{ flight.CompassCourse}" +
+                                         $" Velocity:{ flight.Velocity }");
             }
         }
 
