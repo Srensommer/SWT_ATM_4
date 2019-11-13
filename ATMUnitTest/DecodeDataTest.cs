@@ -27,14 +27,15 @@ namespace ATMUnitTest
             RawTransponderDataEventArgs testData = CreateTestDataRaw(seed);
             List<TrackData> actualTrackData = _uut.Decode(testData);
 
-            for (int i = 0; i < actualTrackData.Count(); i++)
+            Assert.AreEqual(expectedTrackData, actualTrackData);
+            /*for (int i = 0; i < actualTrackData.Count(); i++)
             {
                 Assert.AreEqual(expectedTrackData[i].Tag, actualTrackData[i].Tag);
                 Assert.AreEqual(expectedTrackData[i].X, actualTrackData[i].X);
                 Assert.AreEqual(expectedTrackData[i].Y, actualTrackData[i].Y);
                 Assert.AreEqual(expectedTrackData[i].Altitude, actualTrackData[i].Altitude);
                 Assert.AreEqual(expectedTrackData[i].Timestamp, actualTrackData[i].Timestamp);
-            }
+            }*/
         }
 
         private RawTransponderDataEventArgs CreateTestDataRaw(string seed)
