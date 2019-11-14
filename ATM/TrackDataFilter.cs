@@ -18,11 +18,11 @@ namespace ATM
             List<TrackData> tempTracks = new List<TrackData>();
             foreach (TrackData element in data)
             {
-                if (minX < element.X && maxX > element.X)
+                if (minX <= element.X && maxX >= element.X)
                 {
-                    if (minY < element.Y && maxY > element.Y)
+                    if (minY <= element.Y && maxY >= element.Y)
                     {
-                        if (minZ < element.Altitude && maxZ > element.Altitude)
+                        if (minZ <= element.Altitude && maxZ >= element.Altitude)
                         {
                             if (element.Tag.Count() == 6)
                             {
