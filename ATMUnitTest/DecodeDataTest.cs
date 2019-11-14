@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ATM;
+using Castle.Components.DictionaryAdapter;
 using NUnit.Framework;
 using TransponderReceiver;
 
@@ -20,53 +21,45 @@ namespace ATMUnitTest
         {
             _uut = new ATM.Decoder();
         }
-        [TestCase("normal")]
-        public void Decode_CalledWithRawTransponderDataEventArgs_ReturnsTrackDataList(string seed)
-        {
-            List<TrackData> expectedTrackData = createTestDataList(seed);
-            RawTransponderDataEventArgs testData = CreateTestDataRaw(seed);
-            List<TrackData> actualTrackData = _uut.Decode(testData);
 
-            Assert.AreEqual(expectedTrackData, actualTrackData);
-            /*for (int i = 0; i < actualTrackData.Count(); i++)
+        [Test()]
+        public void Decode_CalledWithRawTransponderDataEventArgs_ReturnsTrackDataListWithSameX()
+        {
+            List<string> testData = new List<string>
             {
-                Assert.AreEqual(expectedTrackData[i].Tag, actualTrackData[i].Tag);
-                Assert.AreEqual(expectedTrackData[i].X, actualTrackData[i].X);
-                Assert.AreEqual(expectedTrackData[i].Y, actualTrackData[i].Y);
-                Assert.AreEqual(expectedTrackData[i].Altitude, actualTrackData[i].Altitude);
-                Assert.AreEqual(expectedTrackData[i].Timestamp, actualTrackData[i].Timestamp);
-            }*/
+                "AYE334;12345;12345;12345;20190101010101010",
+                "BYE334;11345;11345;11345;20190201010101010"
+            };
+            List<TrackData> expectedData = new List<TrackData>();
+            expectedData.Add(new TrackData("AYE334", 12345, 12345, 12345, new DateTime(2019, 01, 01, 01, 01, 01, 010)));
+            expectedData.Add(new TrackData("BYE334", 11345, 11345, 11345, new DateTime(2019, 02, 01, 01, 01, 01, 010)));
+            RawTransponderDataEventArgs testTransponderData = new RawTransponderDataEventArgs(testData);
+            List<TrackData> actualData = new List<TrackData>();
+            actualData = _uut.Decode(testTransponderData);
+            CollectionAssert.AreEqual(expectedData, actualData, new TrackDataComparer());
         }
 
-        private RawTransponderDataEventArgs CreateTestDataRaw(string seed)
+        private class TrackDataComparer : Comparer<TrackData>
         {
-            List<string> testDataString = new List<string>();
-            switch (seed)
+            public override int Compare(TrackData x, TrackData y)
             {
-                case "normal":
-                    testDataString.Add("PEPE69;420;69;1337;20151006213456789");
-                    testDataString.Add("FUN;111;22;4141;11111111111111111");
-
-
-                    return new RawTransponderDataEventArgs(testDataString);
-
-                default:
-                    return new RawTransponderDataEventArgs(testDataString);
+                return x.X.CompareTo(y.X);
             }
         }
-        private List<TrackData> createTestDataList(string seed)
-        {
-            List<TrackData> testData = new List<TrackData>();
-            switch (seed)
-            {
-                case "normal":
-                    testData.Add(new TrackData("PEPE69", 420, 69, 1337, new DateTime(2015, 10, 06, 21, 34, 56, 789)));
-                    testData.Add(new TrackData("FUN", 111, 22, 4141, new DateTime(1111, 11, 11, 11, 11, 11, 111)));
-                    return testData;
 
-                default:
-                    return testData;
-            }
+        [Test()]
+        public void Decode_CalledWithRawTransponderData_ReturnsTrackDataListWithSameFirstTrackDataTag()
+        {
+            List<string> testData = new List<string>
+            {
+                "AYE334;12345;12345;12345;20190101010101010"
+            };
+            List<TrackData> expectedData = new List<TrackData>();
+            expectedData.Add(new TrackData("AYE334", 12345, 12345, 12345, new DateTime(2019, 01, 01, 01, 01, 01, 010)));
+            RawTransponderDataEventArgs testTransponderData = new RawTransponderDataEventArgs(testData);
+            List<TrackData> actualData = new List<TrackData>();
+            actualData = _uut.Decode(testTransponderData);
+            Assert.AreEqual(expectedData[0].Tag,actualData[0].Tag);
         }
     }
 }
