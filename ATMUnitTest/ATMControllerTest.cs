@@ -25,7 +25,10 @@ namespace ATMUnitTest
 
         private Tuple<List<String>, List<String>> _fakeSeperationData;
         private List<TrackData> _fakeTrackData;
+        private List<TrackData> _fakeFilteredData;
+        private Dictionary<string, FlightData> _emptyFlightData;
         private Dictionary<string, FlightData> _fakeFlightData;
+        private Dictionary<string, FlightData> _fakeCalculatedData;
         private RawTransponderDataEventArgs _fakeEventArgs;
 
         [SetUp]
@@ -34,22 +37,29 @@ namespace ATMUnitTest
             //Arrange
             _fakeDisplay = Substitute.For<IDisplay>();
             _fakeTrackDataFilter = Substitute.For<ITrackDataFilter>();
+            _fakeFlightCalculator = Substitute.For<IFlightCalculator>();
             _fakeCollisionDetector = Substitute.For<ICollisionDetector>();
             _fakeDecoder = Substitute.For<IDecoder>();
-            _fakeFlightCalculator = Substitute.For<IFlightCalculator>();
             _fakeReceiver = Substitute.For<ITransponderReceiver>();
 
             _fakeEventArgs = new RawTransponderDataEventArgs(new List<string>());
             _fakeTrackData = new List<TrackData>();
-            _fakeFlightData = new Dictionary<string, FlightData>();
+            _fakeFilteredData = new List<TrackData>();
+            _emptyFlightData = new Dictionary<string, FlightData>();
+            _fakeFlightData = new Dictionary<string, FlightData>(); //TODO: non empty
+            _fakeCalculatedData = new Dictionary<string, FlightData>();
             _fakeSeperationData = new Tuple<List<string>, List<string>>(new List<string>(), new List<string>());
 
             //Fake decoder should return fake Trackdata when called with fakeEventArgs
             _fakeDecoder.Decode(_fakeEventArgs).Returns(_fakeTrackData);
 
-            _fakeTrackDataFilter.Filter(_fakeTrackData).Returns(_fakeTrackData);
+            //Filter returns _fakeFilteredData
+            _fakeTrackDataFilter.Filter(_fakeTrackData).Returns(_fakeFilteredData);
 
-            _fakeFlightCalculator.Calculate(Arg.Any<Dictionary<string, FlightData>>(), Arg.Any<List<TrackData>>()).Returns(_fakeFlightData);
+            //FlightCalculator returns _fakeFlightData
+            _fakeFlightCalculator.Calculate(Arg.Any<Dictionary<string, FlightData>>(), Arg.Any<List<TrackData>>()).Returns(_fakeCalculatedData);
+
+            //Seperation detector returns _fakeSeperationData
             _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>())
                 .Returns(_fakeSeperationData);
 
@@ -60,6 +70,38 @@ namespace ATMUnitTest
                 _fakeDisplay, 
                 _fakeReceiver,
                 _fakeFlightCalculator);
+        }
+
+       
+
+        [Test]
+        public void ATMController_EventIsRaised_DataIsPassedCorrectly()
+        {
+            //Act - event is raised
+            _fakeReceiver.TransponderDataReady += Raise.EventWith(new object(), _fakeEventArgs);
+
+            //Assert
+            
+            //Decoder stub is passed correct eventargs
+            _fakeDecoder.Received().Decode(_fakeEventArgs);
+
+            //Filter is passed trackdata correctly from decoder
+            _fakeTrackDataFilter.Received().Filter(_fakeTrackData);
+
+            //Calculator is called with data from filter and empty flight data(first time)
+            _fakeFlightCalculator.Received().Calculate(
+                Arg.Any<Dictionary<string, FlightData>>(), 
+                Arg.Is<List<TrackData>>(d => ReferenceEquals(d, _fakeFilteredData)));
+
+
+            //Data from calculator is passed into collision detector
+            _fakeCollisionDetector.Received().SeperationCheck(
+                Arg.Is<List<TrackData>>(_fakeFilteredData)
+                );
+
+            //
+            _fakeDisplay.Received().Clear();
+            _fakeDisplay.Received().Render(_fakeCalculatedData, _fakeSeperationData.Item2);
         }
 
         [Test]
@@ -85,3 +127,6 @@ namespace ATMUnitTest
         }
     }
 }
+
+
+//TODO: Test that flight calculator holds _data

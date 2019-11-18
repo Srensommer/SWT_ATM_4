@@ -25,10 +25,10 @@ namespace ATM
         {
             _decoder = decoder;
             _filter = filter;
+            _flightCalculator = flightCalculator;
             _collisionDetector = collisionDetector;
             _display = display;
             _receiver = receiver;
-            _flightCalculator = flightCalculator;
 
             _data = new Dictionary<string, FlightData>();
 
