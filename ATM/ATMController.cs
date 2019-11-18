@@ -12,23 +12,23 @@ namespace ATM
 {
     public class ATMController
     {
-        private IDecoder _decoder;
-        private ITrackDataFilter _filter;
-        private IFlightCalculator _flightCalculator;
-        private ICollisionDetector _collisionDetector;
-        private IDisplay _display;
-        private ITransponderReceiver _receiver;
+        private readonly IDecoder _decoder;
+        private readonly ITrackDataFilter _filter;
+        private readonly IFlightCalculator _flightCalculator;
+        private readonly ICollisionDetector _collisionDetector;
+        private readonly IDisplay _display;
+        private readonly ITransponderReceiver _receiver;
 
         private Dictionary<string, FlightData> _data;
 
-        public ATMController(IDecoder decoder, ITrackDataFilter filter, ICollisionDetector collisionDetector, IDisplay display, ITransponderReceiver receiver, IFlightCalculator flightCalculator)
+        public ATMController(ControllerFactory controllerFactory)
         {
-            _decoder = decoder;
-            _filter = filter;
-            _flightCalculator = flightCalculator;
-            _collisionDetector = collisionDetector;
-            _display = display;
-            _receiver = receiver;
+            _decoder = controllerFactory.Decoder;
+            _filter = controllerFactory.Filter;
+            _flightCalculator = controllerFactory.FlightCalculator;
+            _collisionDetector = controllerFactory.CollisionDetector;
+            _display = controllerFactory.Display;
+            _receiver = controllerFactory.Receiver;
 
             _data = new Dictionary<string, FlightData>();
 

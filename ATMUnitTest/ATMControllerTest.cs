@@ -63,13 +63,15 @@ namespace ATMUnitTest
             _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>())
                 .Returns(_fakeSeperationData);
 
-            _uut = new ATMController(
+            ControllerFactory fakeFactory = new ControllerFactory(
                 _fakeDecoder, 
                 _fakeTrackDataFilter, 
                 _fakeCollisionDetector,
                 _fakeDisplay, 
                 _fakeReceiver,
                 _fakeFlightCalculator);
+
+            _uut = new ATMController(fakeFactory);
         }
 
        

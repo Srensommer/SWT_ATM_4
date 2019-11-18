@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ATMController.cs" />
     <Compile Include="CollisionDetector.cs" />
+    <Compile Include="ControllerFactory.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="DirectionCalculator.cs" />
     <Compile Include="FlightCalculator.cs" />

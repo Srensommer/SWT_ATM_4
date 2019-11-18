@@ -12,30 +12,11 @@ namespace ATM_Application
     {
         static void Main(string[] args)
         {
-            //Create receiver with factory
-            ITransponderReceiver receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
-
-            //Decoder for decoding input format to data format
-            IDecoder decoder = new ATM.Decoder();
-
-            //Filter for removing tracks outside of airspace
-            ITrackDataFilter filter = new TrackDataFilter();
-
-            //Flight calculator for direction and velocity
-            IVelocityCalculator velocityCalculator = new VelocityCalculator();
-            IDirectionCalculator directionCalculator = new DirectionCalculator();
-            IFlightCalculator flightCalculator = new FlightCalculator(
-                velocityCalculator,
-                directionCalculator);
-
-                //Create collision detector
-            ICollisionDetector collisionDetector = new CollisionDetector(new Logger());
-
-            //Display for rendering data
-            IDisplay display = new Display();
+            //Create controller factory
+            ControllerFactory  controllerFactory = new ControllerFactory();
 
             //Inversion of control
-            ATMController controller = new ATMController(decoder, filter, collisionDetector, display, receiver, flightCalculator);
+            ATMController controller = new ATMController(controllerFactory);
 
             //Wait for user to close the console
             char input = System.Console.ReadKey().KeyChar;
