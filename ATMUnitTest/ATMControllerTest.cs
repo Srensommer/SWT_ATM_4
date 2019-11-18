@@ -121,7 +121,10 @@ namespace ATMUnitTest
             _fakeTrackDataFilter.Received().Filter(_fakeTrackData);
 
             //Tests that flight calculator is called
-            _fakeFlightCalculator.Received().Calculate(Arg.Any<Dictionary<string, FlightData>>(), _fakeTrackData);
+            _fakeFlightCalculator.Received().Calculate(
+                Arg.Any<Dictionary<string, FlightData>>(),
+                Arg.Is<List<TrackData>>(d => ReferenceEquals(d, _fakeFilteredData)));
+
 
             //Display called with correct track data
             _fakeDisplay.Received().Clear();
@@ -129,6 +132,3 @@ namespace ATMUnitTest
         }
     }
 }
-
-
-//TODO: Test that flight calculator holds _data
