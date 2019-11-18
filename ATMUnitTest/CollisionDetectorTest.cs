@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ATM;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace ATMUnitTest
@@ -17,7 +18,8 @@ namespace ATMUnitTest
         [SetUp]
         public void Setup()
         {
-            uut = new CollisionDetector();
+            ILogger iLogger = Substitute.For<ILogger>();
+            uut = new CollisionDetector(iLogger);
         }
         [Test]
         public void CollisionDetectorNoCollisionVerticalDistance()
@@ -138,7 +140,6 @@ namespace ATMUnitTest
             Tuple<List<string>, List<string>> uutTuple = uut.SeperationCheck(trackList);
 
             Assert.IsEmpty(uutTuple.Item1);
-
         }
     }
 }

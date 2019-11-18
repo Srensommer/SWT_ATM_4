@@ -16,9 +16,9 @@ namespace ATM
 
         private readonly ILogger _logger;
 
-        public CollisionDetector()
+        public CollisionDetector(ILogger logger)
         {
-            _logger = new Logger();
+            _logger = logger;
         }
 
         public Tuple<List<String>, List<String>> SeperationCheck(List<TrackData> trackList)

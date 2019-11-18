@@ -29,7 +29,7 @@ namespace ATM_Application
                 directionCalculator);
 
                 //Create collision detector
-            ICollisionDetector collisionDetector = new CollisionDetector();
+            ICollisionDetector collisionDetector = new CollisionDetector(new Logger());
 
             //Display for rendering data
             IDisplay display = new Display();
