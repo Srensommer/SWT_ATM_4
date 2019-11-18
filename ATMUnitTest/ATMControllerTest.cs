@@ -99,7 +99,7 @@ namespace ATMUnitTest
                 Arg.Is<List<TrackData>>(_fakeFilteredData)
                 );
 
-            //
+            // Display receives the correct data from calculator and collision detector
             _fakeDisplay.Received().Clear();
             _fakeDisplay.Received().Render(_fakeCalculatedData, _fakeSeperationData.Item2);
         }
