@@ -36,7 +36,6 @@ namespace ATMUnitTest
             uut = new FlightCalculator(_fakeVelocityCalculator, _fakeDirectionCalculator);
         }
 
-
         [Test]
         public void FlightCalculatorCreateFlights()
         {

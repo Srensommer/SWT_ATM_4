@@ -77,9 +77,6 @@ namespace ATMUnitTest
             Assert.AreEqual(expectedAmountOfTracks, uut.Filter(dummyTrackDataList).Count);
         }
 
-
-
-
         [Test]
         public void FilterTrackRemoveTrackWrongTagTest()
         {

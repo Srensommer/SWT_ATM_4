@@ -42,7 +42,7 @@ namespace ATMUnitTest
             _fakeTrackData = new List<TrackData>();
             _fakeFilteredData = new List<TrackData>();
             _emptyFlightData = new Dictionary<string, FlightData>();
-            _fakeFlightData = new Dictionary<string, FlightData>(); //TODO: non empty
+            _fakeFlightData = new Dictionary<string, FlightData>();
             _fakeCalculatedData = new Dictionary<string, FlightData>();
             _fakeSeperationData = new Tuple<List<string>, List<string>>(new List<string>(), new List<string>());
 
