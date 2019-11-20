@@ -247,7 +247,6 @@ namespace ATMUnitTest
                 x[2].Timestamp == new DateTime(2002, 12, 11, 10, 9, 8, 7)
             ));
         }
-        // TODO: hold _data
 
         [Test]
         public void ATMController_EventIsRaised_DataIsPassedFromCalculatorAndCollisionDetectorToDisplay()
