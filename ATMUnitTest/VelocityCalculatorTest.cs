@@ -62,6 +62,5 @@ namespace ATMUnitTest
             TrackData dummyTrackData2 = new TrackData(dummyTag, 20003, 50004, dummyAltitude, dummyTimestamp4);
             Assert.AreEqual(2.5, uut.CalculateSpeed(dummyTrackData1, dummyTrackData2));
         }
-        // TODO: VelocityCalculatorDivideByZeroException
     }
 }
