@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ATM;
 using NUnit.Framework;
 using NSubstitute;
@@ -57,24 +52,25 @@ namespace ATMUnitTest
             _fakeTrackDataFilter.Filter(_fakeTrackData).Returns(_fakeFilteredData);
 
             //FlightCalculator returns _fakeFlightData
-            _fakeFlightCalculator.Calculate(Arg.Any<Dictionary<string, FlightData>>(), Arg.Any<List<TrackData>>()).Returns(_fakeCalculatedData);
+            _fakeFlightCalculator.Calculate(Arg.Any<Dictionary<string, FlightData>>(), Arg.Any<List<TrackData>>())
+                .Returns(_fakeCalculatedData);
 
             //Seperation detector returns _fakeSeperationData
             _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>())
                 .Returns(_fakeSeperationData);
 
             ControllerFactory fakeFactory = new ControllerFactory(
-                _fakeDecoder, 
-                _fakeTrackDataFilter, 
+                _fakeDecoder,
+                _fakeTrackDataFilter,
                 _fakeCollisionDetector,
-                _fakeDisplay, 
+                _fakeDisplay,
                 _fakeReceiver,
                 _fakeFlightCalculator);
 
             _uut = new ATMController(fakeFactory);
         }
 
-       
+
 
         [Test]
         public void ATMController_EventIsRaised_DataIsPassedCorrectly()
@@ -83,7 +79,7 @@ namespace ATMUnitTest
             _fakeReceiver.TransponderDataReady += Raise.EventWith(new object(), _fakeEventArgs);
 
             //Assert
-            
+
             //Decoder stub is passed correct eventargs
             _fakeDecoder.Received().Decode(_fakeEventArgs);
 
@@ -92,14 +88,14 @@ namespace ATMUnitTest
 
             //Calculator is called with data from filter and empty flight data(first time)
             _fakeFlightCalculator.Received().Calculate(
-                Arg.Any<Dictionary<string, FlightData>>(), 
+                Arg.Any<Dictionary<string, FlightData>>(),
                 Arg.Is<List<TrackData>>(d => ReferenceEquals(d, _fakeFilteredData)));
 
 
             //Data from calculator is passed into collision detector
             _fakeCollisionDetector.Received().SeperationCheck(
                 Arg.Is<List<TrackData>>(_fakeFilteredData)
-                );
+            );
 
             // Display receives the correct data from calculator and collision detector
             _fakeDisplay.Received().Clear();
@@ -107,28 +103,56 @@ namespace ATMUnitTest
         }
 
         [Test]
-        public void ATMController_EventIsRaised_AllDependenciesCalled()
+        public void ATMController_EventIsRaised_DataIsPassedFromEventToDecoder()
         {
-            //Act
-            _fakeReceiver.TransponderDataReady += Raise.EventWith(new object(), _fakeEventArgs);
+            // Arrange
+            _fakeEventArgs = new RawTransponderDataEventArgs(new List<string>
+            {
+                "AYE334;12345;12345;12345;20190101010101010",
+                "BYE331;41242;12345;12345;20190101010101010",
+                "HMM221;12521;12345;12345;20190101010101010"
+            });
+
+            // Act - event is raised
+            _fakeReceiver.TransponderDataReady += Raise.EventWith(new object (), _fakeEventArgs);
 
             //Assert
 
-            //Decoder called with correct EventArgs
-            _fakeDecoder.Received().Decode(_fakeEventArgs);
+            //Decoder stub is passed correct eventargs
+            _fakeDecoder.Received().Decode(Arg.Is<RawTransponderDataEventArgs>(x =>
+            
+                x.TransponderData[0] == "AYE334;12345;12345;12345;20190101010101010" &&
+                x.TransponderData[1] == "BYE331;41242;12345;12345;20190101010101010" &&
+                x.TransponderData[2] == "HMM221;12521;12345;12345;20190101010101010"
+            ));
+        }
 
-            //Filter called with correct track data
-            _fakeTrackDataFilter.Received().Filter(_fakeTrackData);
+        [Test]
+        public void ATMController_EventIsRaised_DataIsPassedFromDecoderToFilter()
+        {
+            // Arrange
 
-            //Tests that flight calculator is called
-            _fakeFlightCalculator.Received().Calculate(
-                Arg.Any<Dictionary<string, FlightData>>(),
-                Arg.Is<List<TrackData>>(d => ReferenceEquals(d, _fakeFilteredData)));
+            _fakeEventArgs = new RawTransponderDataEventArgs(new List<string>());
 
+            // Act
 
-            //Display called with correct track data
-            _fakeDisplay.Received().Clear();
-            _fakeDisplay.Received().Render(Arg.Any<Dictionary<string, FlightData>>(), Arg.Any<List<string>>());
+            //Fake decoder should return fake Trackdata when called with fakeEventArgs
+            _fakeDecoder.Decode(_fakeEventArgs).Returns(_fakeTrackData = new List<TrackData>
+            {
+                new TrackData("AYE334", 12345, 54321, 5000, new DateTime(year:2000, month:10, day: 9, hour: 8, minute: 7, second: 6, millisecond: 5)),
+                new TrackData("BYE331", 12345, 54321, 5000, new DateTime(year:2001, month:11, day: 10, hour: 9, minute: 8, second: 7, millisecond: 6)),
+                new TrackData("HMM221", 12345, 54321, 5000, new DateTime(year:2002, month:12, day: 11, hour: 10, minute: 9, second: 8, millisecond: 7))
+            });
+
+            //Raise event
+            _fakeReceiver.TransponderDataReady += Raise.EventWith(new object(), _fakeEventArgs);
+
+            // Assert
+            _fakeTrackDataFilter.Received().Filter(Arg.Is<List<TrackData>>(x =>
+                x[0].Tag == "AYE334" && x[0].X == 12345 && x[0].Y == 54321 && 
+                x[0].Timestamp.Year == 2000 && x[0].Timestamp.Month == 10 && x[0].Timestamp.Day == 9 && x[0].Timestamp.Hour == 8 &&
+                x[0].Timestamp.Minute == 7 && x[0].Timestamp.Second == 6 && x[0].Timestamp.Millisecond == 5
+                ));
         }
     }
 }
