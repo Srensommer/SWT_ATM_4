@@ -168,11 +168,12 @@ namespace ATMUnitTest
         public void ATMController_EventIsRaised_DataIsPassedFromFilterToFlightCalculator()
         {
             // Arrange
+            // TODO: is this needed?
             _fakeEventArgs = new RawTransponderDataEventArgs(new List<string>());
 
             // Act
 
-            //Fake Filter should return fake Trackdata when called with Trackdata
+            //Fake Filter should return fake Trackdata when called with any argument
             _fakeTrackDataFilter.Filter(Arg.Any<List<TrackData>>()).Returns(_fakeTrackData = new List<TrackData>
             {
                 new TrackData("AYE334", 12345, 54321, 5000, new DateTime(year:2000, month:10, day: 9, hour: 8, minute: 7, second: 6, millisecond: 5)),
@@ -205,6 +206,71 @@ namespace ATMUnitTest
                 x[2].Altitude == 7000 &&
                 x[2].Timestamp == new DateTime(2002,12, 11, 10, 9, 8, 7)
                 ));
+        }
+
+        [Test]
+        public void ATMController_EventIsRaised_DataIsPassedFromFilterToCollisionDetector()
+        {
+            // Arrange
+            _fakeEventArgs = new RawTransponderDataEventArgs(new List<string>());
+
+            //Fake Filter should return fake Trackdata when called with any argument
+            _fakeTrackDataFilter.Filter(Arg.Any<List<TrackData>>()).Returns(_fakeTrackData = new List<TrackData>
+            {
+                new TrackData("AYE334", 12345, 54321, 5000, new DateTime(year:2000, month:10, day: 9, hour: 8, minute: 7, second: 6, millisecond: 5)),
+                new TrackData("BYE331", 12346, 54322, 6000, new DateTime(year:2001, month:11, day: 10, hour: 9, minute: 8, second: 7, millisecond: 6)),
+                new TrackData("HMM221", 12347, 54323, 7000, new DateTime(year:2002, month:12, day: 11, hour: 10, minute: 9, second: 8, millisecond: 7))
+            });
+
+            // Act
+            _fakeReceiver.TransponderDataReady += Raise.EventWith(new object(), _fakeEventArgs);
+
+            
+
+            _fakeCollisionDetector.Received().SeperationCheck(Arg.Is<List<TrackData>>(x =>
+                x[0].Tag == "AYE334" &&
+                x[0].X == 12345 &&
+                x[0].Y == 54321 &&
+                x[0].Altitude == 5000 &&
+                x[0].Timestamp == new DateTime(2000, 10, 9, 8, 7, 6, 5) &&
+
+                x[1].Tag == "BYE331" &&
+                x[1].X == 12346 &&
+                x[1].Y == 54322 &&
+                x[1].Altitude == 6000 &&
+                x[1].Timestamp == new DateTime(2001, 11, 10, 9, 8, 7, 6) &&
+
+                x[2].Tag == "HMM221" &&
+                x[2].X == 12347 &&
+                x[2].Y == 54323 &&
+                x[2].Altitude == 7000 &&
+                x[2].Timestamp == new DateTime(2002, 12, 11, 10, 9, 8, 7)
+            ));
+        }
+        // TODO: hold _data
+
+        [Test]
+        public void ATMController_EventIsRaised_DataIsPassedFromCalculatorAndCollisionDetectorToDisplay()
+        {
+            // Arrange
+            _fakeEventArgs = new RawTransponderDataEventArgs(new List<string>());
+
+            _fakeCalculatedData = new Dictionary<string, FlightData>();
+
+            _fakeCalculatedData.Add(
+                "AYE334", new FlightData(
+                    new TrackData("AYE334", 12345, 54321, 5000, new DateTime(year: 2000, month: 10, day: 9, hour: 8, minute: 7, second: 6, millisecond: 5)))
+            );
+
+            _fakeFlightCalculator.Calculate(Arg.Any<Dictionary<string, FlightData>>(), Arg.Any<List<TrackData>>())
+                .Returns(_fakeCalculatedData);
+
+            //_fakeCollisionDetector.SeperationCheck().Returns();
+
+            // Act
+            _fakeReceiver.TransponderDataReady += Raise.EventWith(new object(), _fakeEventArgs);
+
+
         }
     }
 }
