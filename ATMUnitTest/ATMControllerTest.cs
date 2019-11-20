@@ -140,8 +140,8 @@ namespace ATMUnitTest
             _fakeDecoder.Decode(_fakeEventArgs).Returns(_fakeTrackData = new List<TrackData>
             {
                 new TrackData("AYE334", 12345, 54321, 5000, new DateTime(year:2000, month:10, day: 9, hour: 8, minute: 7, second: 6, millisecond: 5)),
-                new TrackData("BYE331", 12345, 54321, 5000, new DateTime(year:2001, month:11, day: 10, hour: 9, minute: 8, second: 7, millisecond: 6)),
-                new TrackData("HMM221", 12345, 54321, 5000, new DateTime(year:2002, month:12, day: 11, hour: 10, minute: 9, second: 8, millisecond: 7))
+                new TrackData("BYE331", 12121, 23232, 5001, new DateTime(year:2001, month:11, day: 10, hour: 9, minute: 8, second: 7, millisecond: 6)),
+                new TrackData("HMM221", 34343, 45454, 5002, new DateTime(year:2002, month:12, day: 11, hour: 10, minute: 9, second: 8, millisecond: 7))
             });
 
             //Raise event
@@ -149,10 +149,18 @@ namespace ATMUnitTest
 
             // Assert
             _fakeTrackDataFilter.Received().Filter(Arg.Is<List<TrackData>>(x =>
-                x[0].Tag == "AYE334" && x[0].X == 12345 && x[0].Y == 54321 && 
+                x[0].Tag == "AYE334" && x[0].X == 12345 && x[0].Y == 54321 && x[0].Altitude == 5000 &&
                 x[0].Timestamp.Year == 2000 && x[0].Timestamp.Month == 10 && x[0].Timestamp.Day == 9 && x[0].Timestamp.Hour == 8 &&
-                x[0].Timestamp.Minute == 7 && x[0].Timestamp.Second == 6 && x[0].Timestamp.Millisecond == 5
-                ));
+                x[0].Timestamp.Minute == 7 && x[0].Timestamp.Second == 6 && x[0].Timestamp.Millisecond == 5 &&
+
+                x[1].Tag == "BYE331" && x[1].X == 12121 && x[1].Y == 23232 && x[1].Altitude == 5001 &&
+                x[1].Timestamp.Year == 2001 && x[1].Timestamp.Month == 11 && x[1].Timestamp.Day == 10 && x[1].Timestamp.Hour == 9 &&
+                x[1].Timestamp.Minute == 8 && x[1].Timestamp.Second == 7 && x[1].Timestamp.Millisecond == 6 &&
+
+                x[2].Tag == "HMM221" && x[2].X == 34343 && x[2].Y == 45454 && x[2].Altitude == 5002 &&
+                x[2].Timestamp.Year == 2002 && x[2].Timestamp.Month == 12 && x[2].Timestamp.Day == 11 && x[2].Timestamp.Hour == 10 &&
+                x[2].Timestamp.Minute == 9 && x[2].Timestamp.Second == 8 && x[2].Timestamp.Millisecond == 7
+            ));
         }
     }
 }
