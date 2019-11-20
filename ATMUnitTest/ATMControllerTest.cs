@@ -265,11 +265,26 @@ namespace ATMUnitTest
             _fakeFlightCalculator.Calculate(Arg.Any<Dictionary<string, FlightData>>(), Arg.Any<List<TrackData>>())
                 .Returns(_fakeCalculatedData);
 
-            //_fakeCollisionDetector.SeperationCheck().Returns();
+
+
+            _fakeSeperationData = Tuple.Create(
+                new List<string>() {"AYO360", "HIW551"},
+                new List<string>() { "Time of occurrence: 20190101010101010, Tags: AYO360, HIW551" }
+            );
+
+            _fakeCollisionDetector.SeperationCheck(Arg.Any<List<TrackData>>()).Returns(_fakeSeperationData);
 
             // Act
             _fakeReceiver.TransponderDataReady += Raise.EventWith(new object(), _fakeEventArgs);
 
+            // Assert
+            _fakeDisplay.Received().Render(Arg.Is<Dictionary<string, FlightData>>(x => 
+                x["AYE334"].Tag == "AYE334" && x["AYE334"].X == 12345 && x["AYE334"].Y == 54321 &&
+                x["AYE334"].Altitude == 5000 && x["AYE334"].Timestamp == new DateTime(2000, 10, 9, 8, 7, 6, 5)
+
+            ), Arg.Is<List<string>>(x =>
+                x.Contains("Time of occurrence: 20190101010101010, Tags: AYO360, HIW551")
+                ));
 
         }
     }
